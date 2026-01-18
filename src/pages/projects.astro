@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const translations = {
+	subtitle: { en: 'Selected Work', es: 'Trabajos Seleccionados' },
+	title: { en: 'Projects', es: 'Proyectos' },
+	description: { en: 'A collection of projects showcasing my skills in full-stack development, from conception to deployment.', es: 'Una colección de proyectos que muestran mis habilidades en desarrollo full-stack, desde la concepción hasta el despliegue.' },
+	comingSoon: { en: 'Projects are coming', es: 'Los proyectos están por venir' }
+};
+---
+
+<Layout title={`Projects | Javier Castillo`}>
+	<Header />
+	
+	<main class="min-h-screen px-4 sm:px-6 md:px-6">
+		<section class="max-w-3xl mx-auto min-h-[calc(100vh-5rem)] pt-24 sm:pt-32 md:pt-48 pb-16 sm:pb-24 fade-in px-2 sm:px-0">
+			<div class="max-w-2xl mb-12 sm:mb-16">
+				<p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 tracking-wider uppercase" data-en={translations.subtitle.en} data-es={translations.subtitle.es}>{translations.subtitle.en}</p>
+				<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white" data-en={translations.title.en} data-es={translations.title.es}>
+					{translations.title.en}
+				</h1>
+				<p class="mt-3 sm:mt-4 text-sm sm:text-lg text-gray-600 dark:text-gray-400" data-en={translations.description.en} data-es={translations.description.es}>
+					{translations.description.en}
+				</p>
+			</div>
+
+			<div class="flex items-center justify-center min-h-[400px] parallax-section">
+				<div class="text-center">
+					<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white animate-pulse" data-en={translations.comingSoon.en} data-es={translations.comingSoon.es}>
+						{translations.comingSoon.en}
+					</h2>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const observerOptions = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.1
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+					}
+				});
+			}, observerOptions);
+
+			document.querySelectorAll('.fade-in').forEach(el => {
+				observer.observe(el);
+			});
+
+			window.addEventListener('scroll', () => {
+				const scrolled = window.pageYOffset;
+				document.querySelectorAll('.parallax-section').forEach(section => {
+					const speed = 0.05;
+					(section as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
+				});
+			});
+		});
+	</script>
+</Layout>

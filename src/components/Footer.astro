@@ -1,0 +1,39 @@
+---
+import AstroDark from '../assets/Astro_dark.svg';
+import AstroLight from '../assets/Astro_light.svg';
+import TailwindIcon from '../assets/tailwindcss.svg';
+
+const translations = {
+	built: {
+		en: 'Built with',
+		es: 'Construido con'
+	},
+	credits: {
+		en: "© 2026 Javier Castillo's Portfolio",
+		es: "© 2026 Portafolio de Javier Castillo"
+	}
+};
+---
+
+<footer class="border-t border-gray-200 dark:border-gray-800 py-6 sm:py-8 mt-12 sm:mt-20 bg-white dark:bg-gray-950 transition-colors duration-300">
+	<div class="max-w-3xl mx-auto px-4 sm:px-6 md:px-6 text-center">
+		<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4" data-en={translations.credits.en} data-es={translations.credits.es}>
+			{translations.credits.en}
+		</p>
+		
+		<div class="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
+			<span class="text-xs text-gray-500 dark:text-gray-500 font-medium" data-en={translations.built.en} data-es={translations.built.es}>
+				{translations.built.en}
+			</span>
+			<div class="flex items-center gap-2 sm:gap-3">
+				<a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity" aria-label="Astro">
+					<img src={AstroLight.src} class="dark:hidden h-3 sm:h-4 w-auto" alt="Astro" />
+					<img src={AstroDark.src} class="hidden dark:block h-3 sm:h-4 w-auto" alt="Astro" />
+				</a>
+				<a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity" aria-label="Tailwind CSS">
+					<img src={TailwindIcon.src} class="h-3 sm:h-4 w-auto" alt="Tailwind CSS" />
+				</a>
+			</div>
+		</div>
+	</div>
+</footer>

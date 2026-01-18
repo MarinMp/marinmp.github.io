@@ -1,0 +1,135 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+
+const theme = Astro.cookies.get('theme')?.value || 'light';
+const isDark = theme === 'dark';
+
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en" class={isDark ? 'dark' : ''}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Full Stack Developer Portfolio" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-white dark:bg-gray-950 transition-colors duration-300">
+		<slot />
+		<script>
+			declare global {
+				interface Window {
+					toggleTheme: () => void;
+					toggleLang: () => void;
+					updatePageContent: () => void;
+				}
+			}
+
+			// Initialize theme from localStorage if possible, to stay in sync
+			const savedTheme = localStorage.getItem('theme');
+			if (savedTheme) {
+				document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+			}
+
+			let currentLang = localStorage.getItem('lang') || 'en';
+			document.documentElement.setAttribute('data-lang', currentLang);
+
+			window.updatePageContent = function() {
+				const lang = document.documentElement.getAttribute('data-lang') || 'en';
+				
+				const langBtn = document.getElementById('lang-btn');
+				if (langBtn) {
+					langBtn.textContent = lang === 'es' ? 'ES' : 'EN';
+				}
+
+				document.querySelectorAll('[data-en]').forEach(el => {
+					const en = el.getAttribute('data-en');
+					const es = el.getAttribute('data-es');
+					if (en && es) {
+						// Si el elemento tiene HTML dentro (contiene spans), recrear con HTML
+						if (el.innerHTML.includes('<span')) {
+							if (lang === 'es') {
+								// Para español, reemplazar palabras específicas con versión española
+								el.innerHTML = es.replace('Technologist in Information Systems', '<span class="font-semibold text-gray-900 dark:text-white">Tecnólogo en Sistemas de información</span>')
+									.replace('Full Stack Developer', '<span class="font-semibold text-gray-900 dark:text-white">Desarrollador Full Stack</span>');
+							} else {
+								// Para inglés
+								el.innerHTML = en.replace('Technologist in Information Systems', '<span class="font-semibold text-gray-900 dark:text-white">Technologist in Information Systems</span>')
+									.replace('Full Stack Developer', '<span class="font-semibold text-gray-900 dark:text-white">Full Stack Developer</span>');
+							}
+						} else {
+							el.textContent = lang === 'es' ? es : en;
+						}
+					}
+				});
+
+				document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+					const en = el.getAttribute('data-en-placeholder');
+					const es = el.getAttribute('data-es-placeholder');
+					if (en && es) {
+						(el as HTMLInputElement | HTMLTextAreaElement).placeholder = lang === 'es' ? es : en;
+					}
+				});
+
+				document.querySelectorAll('[data-en-label]').forEach(el => {
+					const en = el.getAttribute('data-en-label');
+					const es = el.getAttribute('data-es-label');
+					if (en && es) {
+						(el as HTMLLabelElement).textContent = lang === 'es' ? es : en;
+					}
+				});
+			};
+
+			window.toggleTheme = () => {
+				const isDark = document.documentElement.classList.toggle('dark');
+				const theme = isDark ? 'dark' : 'light';
+				localStorage.setItem('theme', theme);
+				// Also set a cookie so the server knows the theme on next request
+				document.cookie = `theme=${theme}; path=/; max-age=31536000`;
+			};
+
+			window.toggleLang = () => {
+				// Crear overlay
+				const overlay = document.createElement('div');
+				overlay.className = 'lang-change-overlay';
+				
+				const modal = document.createElement('div');
+				modal.className = 'lang-change-modal';
+				
+				const currentLangAttr = document.documentElement.getAttribute('data-lang') || 'en';
+				const isSpanish = currentLangAttr === 'es';
+				const text = isSpanish ? 'Changing language...' : 'Cambiando lenguaje...';
+				
+				modal.innerHTML = `<h2>${text}</h2>`;
+				overlay.appendChild(modal);
+				document.body.appendChild(overlay);
+				
+				// Cambiar idioma después de 1 segundo
+				setTimeout(() => {
+					currentLang = currentLang === 'en' ? 'es' : 'en';
+					document.documentElement.setAttribute('data-lang', currentLang);
+					localStorage.setItem('lang', currentLang);
+					window.updatePageContent();
+					
+					// Ocultar overlay después de 500ms
+					overlay.classList.add('hidden');
+					setTimeout(() => {
+						overlay.remove();
+					}, 300);
+				}, 1000);
+			};
+
+			document.addEventListener('DOMContentLoaded', () => {
+				window.updatePageContent();
+			});
+		</script>
+	</body>
+</html>

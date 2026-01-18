@@ -1,16 +1,194 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import heroPhoto from '../assets/photo.jpeg';
+
+const translations = {
+  greeting: { 
+    en: "Hello, I'm", 
+    es: "Hola, soy" 
+  },
+  name: { 
+    en: "Javier Castillo", 
+    es: "Javier Castillo" 
+  },
+  description: { 
+    en: "Technologist in Information Systems and Full Stack Developer with more than 2 years of experience, specialized in creating modern, scalable and user-centered solutions.", 
+    es: "Tecnólogo en Sistemas de información y Desarrollador Full Stack con más de 2 años de experiencia, especializado en crear soluciones modernas, escalables y centradas en el usuario." 
+  },
+  availability: {
+    en: "Open to work",
+    es: "Disponible para trabajar"
+  },
+  viewProjects: { 
+    en: "View Projects", 
+    es: "Ver Proyectos" 
+  },
+  getInTouch: { 
+    en: "Get in Touch", 
+    es: "Contactar" 
+  },
+  about: { 
+    en: "About Me", 
+    es: "Sobre mí" 
+  },
+  aboutDesc: {
+    es: "Soy Desarrollador Full Stack con experiencia en la creación de aplicaciones web completas, desde el diseño de la arquitectura hasta la implementación y despliegue. Trabajo integrando APIs, bases de datos y servicios modernos, con foco en rendimiento, mantenibilidad y experiencia de usuario. Me adapto bien a equipos colaborativos, sigo buenas prácticas de desarrollo y busco entregar soluciones estables que aporten valor real al negocio. Estoy interesado en oportunidades remotas o híbridas donde pueda seguir creciendo profesionalmente y contribuir a proyectos bien estructurados.",
+    en: "I am a Full Stack Developer with experience building end-to-end web applications, from architecture design to implementation and deployment. I work integrating APIs, databases, and modern services, with a focus on performance, maintainability, and user experience. I adapt well to collaborative teams, follow development best practices, and aim to deliver stable solutions that bring real business value. I am interested in remote or hybrid opportunities where I can continue growing professionally and contribute to well-structured projects."
+  },
+  tech: { 
+    en: "Tech Stack", 
+    es: "Tecnologías" 
+  }
+};
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title={`Home | Javier Castillo`}>
+	<Header />
+	
+	<main class="min-h-screen px-4 sm:px-6 md:px-6">
+		<section class="max-w-3xl mx-auto min-h-[calc(100vh-5rem)] flex flex-col justify-center pt-32 sm:pt-48 pb-16 sm:pb-24 fade-in">
+			<div class="flex flex-col items-center gap-6 sm:gap-8 text-center">
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+					<div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center overflow-hidden animated-border always-visible flex-shrink-0 shadow-lg dark:shadow-white/20">
+						<img src={heroPhoto.src} alt="Javier Castillo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+						<span class="text-2xl sm:text-3xl md:text-4xl text-gray-500 dark:text-gray-400 hidden">📷</span>
+					</div>
+					<div class="animated-border always-visible px-3 sm:px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 h-fit">
+						<p class="text-xs sm:text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap" data-en={translations.availability.en} data-es={translations.availability.es}>{translations.availability.en}</p>
+					</div>
+				</div>
+				<div>
+					<p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mb-2" data-en={translations.greeting.en} data-es={translations.greeting.es}>{translations.greeting.en}</p>
+					<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 px-2 sm:px-0" data-en={translations.name.en} data-es={translations.name.es}>
+						{translations.name.en}
+					</h1>
+					<p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-lg mx-auto mb-4 sm:mb-6 px-2 sm:px-0" data-en="Technologist in Information Systems and Full Stack Developer with more than 2 years of experience, specialized in creating modern, scalable and user-centered solutions." data-es="Tecnólogo en Sistemas de información y Desarrollador Full Stack con más de 2 años de experiencia, especializado en crear soluciones modernas, escalables y centradas en el usuario.">
+						<span class="font-semibold text-gray-900 dark:text-white">Technologist in Information Systems</span> and <span class="font-semibold text-gray-900 dark:text-white">Full Stack Developer</span> with more than 2 years of experience, specialized in creating modern, scalable and user-centered solutions.
+					</p>
+					<div class="flex flex-wrap gap-2 sm:gap-3 justify-center px-2 sm:px-0">
+						<a href="/projects" class="cursor-pointer px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-full hover:animated-bg transition-all" data-en={translations.viewProjects.en} data-es={translations.viewProjects.es}>
+							{translations.viewProjects.en}
+						</a>
+						<a href="/contact" class="animated-border cursor-pointer px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-medium rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-en={translations.getInTouch.en} data-es={translations.getInTouch.es}>
+							{translations.getInTouch.en}
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="max-w-3xl mx-auto py-12 sm:py-16 border-t border-gray-200 dark:border-gray-700 parallax-section fade-in px-2 sm:px-0">
+			<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8" data-en={translations.about.en} data-es={translations.about.es}>{translations.about.en}</h2>
+			<div class="space-y-3 sm:space-y-4 text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-400" data-en={translations.aboutDesc.en} data-es={translations.aboutDesc.es}>
+				{translations.aboutDesc.en}
+			</div>
+		</section>
+
+		<section class="max-w-3xl mx-auto py-12 sm:py-16 border-t border-gray-200 dark:border-gray-700 parallax-section fade-in px-2 sm:px-0">
+			<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8" data-en={translations.tech.en} data-es={translations.tech.es}>{translations.tech.en}</h2>
+			
+			<div class="tech-ticker-container">
+				<div class="tech-ticker-content">
+					<!-- First set -->
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">JavaScript</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">TypeScript</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">React</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Next.js</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Astro</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Tailwind CSS</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Node.js</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">PostgreSQL</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">MongoDB</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Docker</p>
+					</div>
+					
+					<!-- Second set for seamless looping -->
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">JavaScript</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">TypeScript</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">React</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Next.js</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Astro</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Tailwind CSS</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Node.js</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">PostgreSQL</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">MongoDB</p>
+					</div>
+					<div class="cursor-pointer px-4 py-2 rounded-full bg-transparent border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all hover:scale-105 whitespace-nowrap">
+						<p class="text-sm font-medium text-gray-900 dark:text-white">Docker</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const observerOptions = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.1
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+					}
+				});
+			}, observerOptions);
+
+			document.querySelectorAll('.fade-in').forEach(el => {
+				observer.observe(el);
+			});
+
+			window.addEventListener('scroll', () => {
+				const scrolled = window.pageYOffset;
+				document.querySelectorAll('.parallax-section').forEach(section => {
+					const speed = 0.1;
+					(section as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
+				});
+			});
+		});
+	</script>
+</Layout>

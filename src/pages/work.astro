@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const translations = {
+    subtitle: { en: 'My Journey', es: 'Mi Trayectoria' },
+    title: { en: 'Work Experience', es: 'Experiencia Laboral' },
+    description: { en: 'A timeline of my professional journey and achievements.', es: 'Una línea de tiempo de mi trayectoria profesional y logros.' }
+};
+
+const workExperience = [
+    {
+        year: '01/2026 - Present',
+        yearES: '01/2026 - Actualidad',
+        title: 'Systems Analyst',
+        titleES: 'Analista de Sistemas',
+        company: 'Operations Maritime Fluvial Integral S.A.S.',
+        description: 'Systems analyst focused on web development, process analysis and business digitization. Led the development of the corporate website and participated in the definition, design and implementation of internal technological solutions, process automation and continuous improvement of systems, connecting operational needs with scalable technical solutions.',
+        descriptionES: 'Analista de sistemas con enfoque en desarrollo web, análisis de procesos y digitalización empresarial. Lideré el desarrollo de la web corporativa y participo en la definición, diseño e implementación de soluciones tecnológicas internas, automatización de procesos y mejora continua de sistemas, conectando necesidades operativas con soluciones técnicas escalables.'
+    },
+    {
+        year: '01/2025 - 06/2025',
+        yearES: '01/2025 - 06/2025',
+        title: 'Fullstack Developer',
+        titleES: 'Desarrollador Fullstack',
+        company: 'Ingeniería Sistemas y Servicios E.U.',
+        description: 'Developed end-to-end web applications using Django and React, integrating REST APIs and PostgreSQL. Notable projects: reporting system with export to Excel/JSON/PDF/XML; hotel room management dashboard; dynamic report generator with web filters; image analysis module using Python and OpenCV.',
+        descriptionES: 'Desarrollé aplicaciones web de extremo a extremo utilizando Django y React, integrando Api REST, bases de datos relacionales (PostgreSQL) y componentes interactivos. Entre los proyectos destacados: Sistema de reportes con exportación a Excel, JSON, PDF y XML. Dashboard para la gestión de habitaciones de hotel. Generador de reportes dinámicos con filtros web. Módulo de análisis de imágenes con Python y OpenCV.'
+    },
+    {
+        year: '06/2023 - 12/2024',
+        yearES: '06/2023 - 12/2024',
+        title: 'Freelance Developer & IT Consultant',
+        titleES: 'Desarrollador y Consultor de TI Freelance',
+        company: 'Freelance',
+        description: 'Managed and executed software and web projects for local businesses: desktop and web applications for inventory, orders and production. Highlight: Java application for jewelry calculations (measures and weights), optimizing resources. Also provided web development, technical support and IT consulting.',
+        descriptionES: 'Gestión y ejecución de proyectos de desarrollo de software, sitios web y soporte técnico para negocios locales, adaptando cada solución a las necesidades del cliente. Desarrollo de Software Específico: Creación de aplicaciones de escritorio y web para gestión de inventarios, pedidos y producción. Destaca una aplicación en Java para joyería que calculaba medidas y pesos exactos de materiales.'
+    }
+];
+---
+
+<Layout title={`Work | Javier Castillo`}>
+	<Header />
+	
+	<main class="min-h-screen px-4 sm:px-6 md:px-6">
+		<section class="max-w-3xl mx-auto min-h-[calc(100vh-5rem)] pt-24 sm:pt-32 md:pt-48 pb-16 sm:pb-24 fade-in px-2 sm:px-0">
+			<div class="max-w-2xl mb-12 sm:mb-16">
+				<p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 tracking-wider uppercase" data-en={translations.subtitle.en} data-es={translations.subtitle.es}>{translations.subtitle.en}</p>
+				<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white" data-en={translations.title.en} data-es={translations.title.es}>
+					{translations.title.en}
+				</h1>
+				<p class="mt-3 sm:mt-4 text-sm sm:text-lg text-gray-600 dark:text-gray-400" data-en={translations.description.en} data-es={translations.description.es}>
+					{translations.description.en}
+				</p>
+			</div>
+
+			<div class="space-y-8 sm:space-y-12 parallax-section">
+				{
+					workExperience.map((work, index) => (
+						<div class="relative pl-6 sm:pl-8 border-l-2 border-gray-200 dark:border-gray-700 bg-transparent group cursor-pointer hover:scale-105 transition-all">
+							<div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-gray-400 dark:bg-gray-500 group-hover:scale-125 transition-transform"></div>
+							<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 gap-2 sm:gap-0">
+								<h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white" data-en={work.title} data-es={work.titleES}>{work.title}</h3>
+								<span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium" data-en={work.year} data-es={work.yearES}>{work.year}</span>
+							</div>
+							<p class="text-sm sm:text-lg text-gray-600 dark:text-gray-400 font-medium mb-2 sm:mb-3">{work.company}</p>
+							<p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed" data-en={work.description} data-es={work.descriptionES}>{work.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const observerOptions = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.1
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+					}
+				});
+			}, observerOptions);
+
+			document.querySelectorAll('.fade-in').forEach(el => {
+				observer.observe(el);
+			});
+
+			window.addEventListener('scroll', () => {
+				const scrolled = window.pageYOffset;
+				document.querySelectorAll('.parallax-section').forEach(section => {
+					const speed = 0.05;
+					(section as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
+				});
+			});
+		});
+	</script>
+</Layout>
