@@ -13,7 +13,7 @@ import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="en" class={isDark ? 'dark' : ''}>
+<html lang="es" class={isDark ? 'dark' : ''}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Full Stack Developer Portfolio" />
@@ -39,11 +39,11 @@ import '../styles/global.css';
 				document.documentElement.classList.toggle('dark', savedTheme === 'dark');
 			}
 
-			let currentLang = localStorage.getItem('lang') || 'en';
+			let currentLang = localStorage.getItem('lang') || 'es';
 			document.documentElement.setAttribute('data-lang', currentLang);
 
 			window.updatePageContent = function() {
-				const lang = document.documentElement.getAttribute('data-lang') || 'en';
+				const lang = document.documentElement.getAttribute('data-lang') || 'es';
 				
 				const langBtn = document.getElementById('lang-btn');
 				if (langBtn) {

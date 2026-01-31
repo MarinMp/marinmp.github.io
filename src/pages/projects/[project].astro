@@ -1,0 +1,178 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+    const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md', { query: '?raw', import: 'default' });
+    
+    return Object.keys(esDescriptions).map(path => {
+        const parts = path.split('/');
+        const folder = parts[parts.length - 2];
+        return {
+            params: { project: folder }
+        };
+    });
+}
+
+const { project } = Astro.params;
+
+// Load descriptions from the new location
+const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md', { query: '?raw', import: 'default' });
+const enDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.en.md', { query: '?raw', import: 'default' });
+
+const esContent = await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]() as string;
+const enContent = await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]() as string;
+
+// Load images
+const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
+const projectImages = Object.keys(allImages)
+    .filter(path => path.includes(`/${project}/`))
+    .map(path => (allImages[path] as any).default.src);
+
+const translations = {
+    backToProjects: { en: '← Back to Projects', es: '← Volver a Proyectos' },
+    gallery: { en: 'Gallery', es: 'Galería' },
+    stack: { en: 'Technologies', es: 'Tecnologías' },
+    links: { en: 'Links', es: 'Enlaces' },
+    inDevelopment: { en: 'In Development', es: 'En desarrollo' },
+    customSoftware: { en: 'Custom Software', es: 'Software a medida' }
+};
+
+function parseProjectData(content: string) {
+    const lines = content.split('\n');
+    const title = lines[0].replace(/# /g, '').trim();
+    const summary = lines[1].trim();
+    
+    const stackIndex = lines.findIndex(l => l.includes('## Stack'));
+    const linksIndex = lines.findIndex(l => l.includes('## Links'));
+    
+    const stack = stackIndex !== -1 ? lines[stackIndex + 1].split(',').map(s => s.trim()) : [];
+    const linksRaw = linksIndex !== -1 ? lines.slice(linksIndex + 1).filter(l => l.trim()) : [];
+    
+    const links = linksRaw.map(l => {
+        const match = l.match(/\[(.*)\]\((.*)\)/);
+        if (match) return { label: match[1], url: match[2] };
+        return { label: l.trim(), url: null };
+    });
+
+    return { title, summary, stack, links };
+}
+
+const esData = parseProjectData(esContent);
+const enData = parseProjectData(enContent);
+---
+
+<Layout title={`${project} | Javier Castillo`}>
+	<Header />
+	
+	<main class="min-h-screen px-4 sm:px-6 md:px-6">
+		<article class="max-w-3xl mx-auto pt-24 sm:pt-32 md:pt-48 pb-16 sm:pb-24 fade-in">
+			<a href="/projects" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors mb-8 inline-block" data-en={translations.backToProjects.en} data-es={translations.backToProjects.es}>
+				{translations.backToProjects.en}
+			</a>
+
+			<header class="mb-12">
+				<h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+					<span class="locale-es">{esData.title}</span>
+					<span class="locale-en">{enData.title}</span>
+				</h1>
+				<p class="text-lg text-gray-600 dark:text-gray-400">
+					<span class="locale-es">{esData.summary}</span>
+					<span class="locale-en">{enData.summary}</span>
+				</p>
+			</header>
+
+			<div class="space-y-12">
+				<!-- Stack -->
+				<section>
+					<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4" data-en={translations.stack.en} data-es={translations.stack.es}>
+						{translations.stack.en}
+					</h2>
+					<div class="flex flex-wrap gap-2">
+						{esData.stack.map((tech) => (
+							<span class="px-3 py-1 text-sm font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 hover:animated-bg transition-all duration-300 cursor-default">
+								{tech}
+							</span>
+						))}
+					</div>
+				</section>
+
+				<!-- Links -->
+				{esData.links.length > 0 && esData.links[0].label !== 'Privado' && esData.links[0].label !== 'Private' && (
+					<section>
+						<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4" data-en={translations.links.en} data-es={translations.links.es}>
+							{translations.links.en}
+						</h2>
+						<div class="flex flex-wrap gap-4">
+							{esData.links.map((link, i) => (
+								link.url ? (
+									<a href={link.url} target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-gray-900 dark:text-white hover:text-primary transition-colors flex items-center gap-1">
+										<span class="locale-es">{link.label}</span>
+										<span class="locale-en">{enData.links[i]?.label || link.label}</span>
+										<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+										</svg>
+									</a>
+								) : (
+									<span class="text-sm font-medium text-gray-500">
+										<span class="locale-es">{link.label}</span>
+										<span class="locale-en">{enData.links[i]?.label || link.label}</span>
+									</span>
+								)
+							))}
+						</div>
+					</section>
+				)}
+
+				<!-- Gallery -->
+				{projectImages.length > 0 && (
+					<section>
+						<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6" data-en={translations.gallery.en} data-es={translations.gallery.es}>
+							{translations.gallery.en}
+						</h2>
+						<div class="grid grid-cols-1 gap-8">
+							{projectImages.map((src, i) => (
+								<div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+									<img src={src} alt={`Project screenshot`} class="w-full h-auto" loading="lazy" />
+									
+									{/* Status Badges */}
+									{i === 0 && (project === 'HeyFood' || project === 'MINIPOS') && (
+										<div class="absolute top-4 left-4">
+											<div class="px-3 py-1.5 rounded-full bg-black/60 dark:bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">
+												{project === 'HeyFood' && (
+													<>
+														<span class="locale-es">{translations.inDevelopment.es}</span>
+														<span class="locale-en">{translations.inDevelopment.en}</span>
+													</>
+												)}
+												{project === 'MINIPOS' && (
+													<>
+														<span class="locale-es">{translations.customSoftware.es}</span>
+														<span class="locale-en">{translations.customSoftware.en}</span>
+													</>
+												)}
+											</div>
+										</div>
+									)}
+								</div>
+							))}
+						</div>
+					</section>
+				)}
+			</div>
+		</article>
+	</main>
+
+	<Footer />
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelector('.fade-in')?.classList.add('visible');
+		});
+	</script>
+</Layout>
+
+<style>
+	@reference "../../styles/global.css";
+</style>

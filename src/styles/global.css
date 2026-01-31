@@ -16,6 +16,15 @@ html.dark {
 	color-scheme: dark;
 }
 
+/* i18n Visibility Utilities */
+html[data-lang="es"] .locale-en {
+	display: none !important;
+}
+
+html[data-lang="en"] .locale-es {
+	display: none !important;
+}
+
 .parallax-section {
 	transition: transform 0.3s ease-out;
 }
