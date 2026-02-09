@@ -1,4 +1,4 @@
-# 4. Final Project
+# Final Project
 Final project for Database II.
 
 ## Stack

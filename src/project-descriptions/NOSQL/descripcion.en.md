@@ -1,4 +1,4 @@
-# 3. NoSQL
+# NoSQL
 Practices using NoSQL databases will be documented.
 
 ## Stack

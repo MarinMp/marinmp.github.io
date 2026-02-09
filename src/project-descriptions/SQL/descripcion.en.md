@@ -1,4 +1,4 @@
-# 1. SQL
+# SQL
 SQL queries and exercises focused on relational modeling will be published.
 
 ## Stack

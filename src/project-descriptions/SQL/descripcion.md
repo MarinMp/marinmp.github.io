@@ -1,4 +1,4 @@
-# 1. SQL
+# SQL
 Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 
 ## Stack

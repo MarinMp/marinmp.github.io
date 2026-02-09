@@ -130,34 +130,7 @@ const enData = parseProjectData(enContent);
 					<section>
 						<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6" data-en={translations.gallery.en} data-es={translations.gallery.es}>
 							{translations.gallery.en}
-						</h2>
-						<div class="grid grid-cols-1 gap-8">
-							{projectImages.map((src, i) => (
-								<div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
-									<img src={src} alt={`Project screenshot`} class="w-full h-auto" loading="lazy" />
-									
-									{/* Status Badges */}
-									{i === 0 && (project === 'SQL' || project === 'MINIPOS') && (
-										<div class="absolute top-4 left-4">
-											<div class="px-3 py-1.5 rounded-full bg-black/60 dark:bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">
-												{project === 'SQL' && (
-													<>
-														<span class="locale-es">{translations.inDevelopment.es}</span>
-														<span class="locale-en">{translations.inDevelopment.en}</span>
-													</>
-												)}
-												{project === 'MINIPOS' && (
-													<>
-														<span class="locale-es">{translations.customSoftware.es}</span>
-														<span class="locale-en">{translations.customSoftware.en}</span>
-													</>
-												)}
-											</div>
-										</div>
-									)}
-								</div>
-							))}
-						</div>
+
 					</section>
 				)}
 			</div>
