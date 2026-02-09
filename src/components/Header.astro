@@ -12,9 +12,6 @@ const currentPage = Astro.url.pathname;
 			<a href="/projects" class={`text-sm font-medium transition-colors whitespace-nowrap ${currentPage === '/projects' ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`} data-en="Projects" data-es="Proyectos">
 				Projects
 			</a>
-			<a href="/work" class={`text-sm font-medium transition-colors whitespace-nowrap ${currentPage === '/work' ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`} data-en="Work" data-es="Trabajo">
-				Work
-			</a>
 			<a href="/contact" class={`text-sm font-medium transition-colors whitespace-nowrap ${currentPage === '/contact' ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`} data-en="Contact" data-es="Contacto">
 				Contact
 			</a>
@@ -56,10 +53,6 @@ const currentPage = Astro.url.pathname;
 		</a>
 		<a href="/evidences" onclick="window.closeMobileMenu()" class={`block px-3 py-2 rounded-lg transition-colors font-medium text-sm ${currentPage === '/evidences' ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'}`} data-en="Evidences" data-es="Evidencias">
 			Evidences
-		</a>
-		<a href="/work" onclick="window.closeMobileMenu()" class={`block px-3 py-2 rounded-lg transition-colors font-medium text-sm ${currentPage === '/work' ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'}`} data-en="Work" data-es="Trabajo">
-			Work
-		</a>
 		<a href="/contact" onclick="window.closeMobileMenu()" class={`block px-3 py-2 rounded-lg transition-colors font-medium text-sm ${currentPage === '/contact' ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'}`} data-en="Contact" data-es="Contacto">
 			Contact
 		</a>
