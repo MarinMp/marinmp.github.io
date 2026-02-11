@@ -81,17 +81,12 @@ const translations = {
 		</section>
 
 		<!-- Presentación Video -->
-		<section class="max-w-3xl mx-auto py-16 fade-in px-2 sm:px-0 text-center">
+		<section class="max-w-3xl mx-auto py-12 sm:py-16 border-t border-gray-200 dark:border-gray-700 parallax-section fade-in px-2 sm:px-0 text-center">
 		<h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6" data-en={translations.presentation.en} data-es={translations.presentation.es}>
 			{translations.presentation.en}
 		</h2>
 		<div class="mx-auto w-[150px] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
-			<video
-			class="w-full h-auto"
-			controls
-			preload="metadata"
-			poster="/yo-miniatura.jpg"
-			>
+			<video class="w-full h-auto" controls preload="metadata" poster="/yo-miniatura.jpg">
 			<source src="/Presentacion.mp4" type="video/mp4" />
 			Your browser does not support the video tag.
 			</video>
