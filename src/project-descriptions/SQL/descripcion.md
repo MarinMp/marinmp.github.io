@@ -2,7 +2,6 @@
 
 Este proyecto contiene consultas avanzadas utilizando JOIN, GROUP BY y subconsultas para análisis de datos académicos.
 
----
 
 ## 📌 Objetivo
 
@@ -12,7 +11,6 @@ Demostrar el uso correcto de:
 - Subconsultas
 - Funciones de agregación
 
----
 
 ## 🧠 Ejemplo de consulta
 
