@@ -17,6 +17,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
+// 🔥 Importamos markdown como componente
 const esModules = import.meta.glob('../../project-descriptions/*/descripcion.md');
 const enModules = import.meta.glob('../../project-descriptions/*/descripcion.en.md');
 
@@ -25,12 +26,6 @@ const enModule = await enModules[`../../project-descriptions/${project}/descripc
 
 const ESContent = esModule.default;
 const ENContent = enModule.default;
-
-// Load images
-const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
-const projectImages = Object.keys(allImages)
-    .filter(path => path.includes(`/${project}/`))
-    .map(path => (allImages[path] as any).default.src);
 
 const translations = {
     backToProjects: { en: '← Back to Evidences', es: '← Volver a Evidencias' }
@@ -47,8 +42,7 @@ const translations = {
 				href="/projects" 
 				class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors mb-8 inline-block"
 			>
-				<span class="locale-en">{translations.backToProjects.en}</span>
-				<span class="locale-es">{translations.backToProjects.es}</span>
+				{translations.backToProjects.en}
 			</a>
 
 			<section class="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -59,23 +53,6 @@ const translations = {
 					<ENContent />
 				</div>
 			</section>
-
-			{projectImages.length > 0 && (
-				<section class="mt-16">
-					<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6">
-						<span class="locale-en">{translations.gallery.en}</span>
-						<span class="locale-es">{translations.gallery.es}</span>
-					</h2>
-
-					<div class="grid grid-cols-1 gap-8">
-						{projectImages.map((src) => (
-							<div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
-								<img src={src} alt="Project screenshot" class="w-full h-auto" loading="lazy" />
-							</div>
-						))}
-					</div>
-				</section>
-			)}
 
 		</article>
 	</main>
