@@ -1,7 +1,16 @@
 # SQL
-Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 
-## Stack
+Este proyecto contiene consultas avanzadas.
 
-## Links
-Privado
+## Objetivo
+
+Demostrar el uso de:
+
+- INNER JOIN
+- LEFT JOIN
+- Subconsultas
+
+## Ejemplo
+
+```sql
+SELECT * FROM estudiantes;
