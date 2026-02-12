@@ -15,7 +15,6 @@ html.dark {
 	color-scheme: dark;
 }
 
-/* ================= i18n ================= */
 
 html[data-lang="es"] .locale-en {
 	display: none !important;
@@ -24,8 +23,6 @@ html[data-lang="es"] .locale-en {
 html[data-lang="en"] .locale-es {
 	display: none !important;
 }
-
-/* ================= Animations ================= */
 
 .parallax-section {
 	transition: transform 0.3s ease-out;
@@ -42,7 +39,6 @@ html[data-lang="en"] .locale-es {
 	transform: translateY(0);
 }
 
-/* ================= Markdown Styling ================= */
 
 article h1 {
 	font-size: 2.75rem;
