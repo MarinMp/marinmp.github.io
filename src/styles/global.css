@@ -2,7 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 @theme {
 	--color-primary: #6b7280;
 	--color-primary-dark: #4b5563;
@@ -16,7 +15,8 @@ html.dark {
 	color-scheme: dark;
 }
 
-/* i18n Visibility Utilities */
+/* ================= i18n ================= */
+
 html[data-lang="es"] .locale-en {
 	display: none !important;
 }
@@ -24,6 +24,8 @@ html[data-lang="es"] .locale-en {
 html[data-lang="en"] .locale-es {
 	display: none !important;
 }
+
+/* ================= Animations ================= */
 
 .parallax-section {
 	transition: transform 0.3s ease-out;
@@ -40,125 +42,81 @@ html[data-lang="en"] .locale-es {
 	transform: translateY(0);
 }
 
-@keyframes border-gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+/* ================= Markdown Styling ================= */
+
+article h1 {
+	font-size: 2.75rem;
+	font-weight: 800;
+	line-height: 1.2;
+	margin-bottom: 1.5rem;
+	color: rgb(17 24 39);
 }
 
-.animated-border {
-	position: relative;
-}
-
-.animated-border::before {
-	content: '';
-	position: absolute;
-	inset: -2px;
-	padding: 2px;
-	border-radius: inherit;
-	background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d, #ff6b6b);
-	background-size: 300% 300%;
-	animation: border-gradient 4s ease infinite;
-	z-index: -1;
-	opacity: 0;
-	transition: opacity 0.3s ease;
-	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-	-webkit-mask-composite: xor;
-	mask-composite: exclude;
-}
-
-.animated-border:hover::before,
-.animated-border.always-visible::before {
-	opacity: 1;
-}
-
-.animated-border {
-	position: relative;
-	z-index: 0;
-}
-
-@utility animated-bg {
-	background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d, #ff6b6b);
-	background-size: 300% 300%;
-	animation: border-gradient 4s ease infinite;
-	color: white !important;
-}
-
-@keyframes scroll {
-	0% {
-		transform: translateX(0);
-	}
-	100% {
-		transform: translateX(-50%);
-	}
-}
-
-.tech-ticker-container {
-	overflow: hidden;
-	width: 100%;
-	position: relative;
-	mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-.tech-ticker-content {
-	display: flex;
-	width: max-content;
-	gap: 1.5rem;
-	animation: scroll 20s linear infinite;
-}
-
-.tech-ticker-content:hover {
-	animation-play-state: paused;
-}
-
-@keyframes fadeInOverlay {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes fadeOutOverlay {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
-}
-
-.lang-change-overlay {
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.6);
-	backdrop-filter: blur(8px);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 999;
-	animation: fadeInOverlay 0.3s ease;
-}
-
-.lang-change-overlay.hidden {
-	animation: fadeOutOverlay 0.3s ease forwards;
-}
-
-.lang-change-modal {
-	text-align: center;
-	animation: fadeInOverlay 0.3s ease;
-}
-
-.lang-change-modal h2 {
-	font-size: 2rem;
-	font-weight: bold;
+.dark article h1 {
 	color: white;
+}
+
+article h2 {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
+	color: rgb(31 41 55);
+}
+
+.dark article h2 {
+	color: rgb(229 231 235);
+}
+
+article h3 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-top: 2rem;
+	margin-bottom: 0.75rem;
+	color: rgb(55 65 81);
+}
+
+.dark article h3 {
+	color: rgb(209 213 219);
+}
+
+article p {
+	margin-bottom: 1rem;
+}
+
+article ul {
+	list-style: disc;
+	padding-left: 1.5rem;
+	margin: 1rem 0;
+}
+
+article li {
+	margin-bottom: 0.5rem;
+}
+
+article img {
+	margin: 1.5rem 0;
+	border-radius: 1rem;
+	border: 1px solid rgb(229 231 235);
+}
+
+.dark article img {
+	border-color: rgb(55 65 81);
+}
+
+article pre {
+	background: rgb(243 244 246);
+	padding: 1rem;
+	border-radius: 0.75rem;
+	overflow-x: auto;
+	margin: 1.5rem 0;
+}
+
+.dark article pre {
+	background: rgb(31 41 55);
+}
+
+article code {
+	font-family: monospace;
+	font-size: 0.9rem;
 }
