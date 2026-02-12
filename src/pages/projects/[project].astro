@@ -17,12 +17,14 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
-// Load descriptions from the new location
+const { project } = Astro.params;
+
+// Import markdown files
 const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md');
 const enDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.en.md');
 
-const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]()).default;
-const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]()).default;
+const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]())?.default;
+const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]())?.default;
 
 // Load images
 const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
