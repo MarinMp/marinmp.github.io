@@ -12,14 +12,12 @@ Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 
 ---
 
-## Consulta Principal
+### Consultas
 
 ```sql
-/*
-Autor: Paula Marín
-Fecha: 06/02/2026
-Descripción: Traer empleados con sus managers
-*/
+-- Autor: Paula Marín
+-- Fecha: 06/02/2026
+-- Descripción: Traer empleados con sus managers
  
 SELECT E.FIRST_NAME || ' ' || E.LAST_NAME AS NOMBRE_EMPLEADO,  
        M.FIRST_NAME || ' ' || M.LAST_NAME NOMBRE_MANAGER
