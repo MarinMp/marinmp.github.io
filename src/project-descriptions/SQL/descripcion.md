@@ -7,24 +7,11 @@ Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 ## Links
 Privado
 
-# Consultas Básicas
+### Implementar en Vercel
 
-## Objetivo
-Aprender a usar SELECT, WHERE y ORDER BY para filtrar información.
+El proyecto está optimizado para Vercel:
 
-## Descripción
-Se trabaja sobre la base de datos HR para obtener información de empleados.
-
-## Consulta
-
-```sql
-SELECT first_name, last_name, hire_date
-FROM employees
-ORDER BY hire_date DESC;
+```bash
+npm install -g vercel
+vercel
 ```
-
-## Resultado esperado
-Lista de empleados ordenados desde el más reciente al más antiguo.
-
-## Aprendizaje
-Se comprendió el uso de ORDER BY para ordenar resultados.
