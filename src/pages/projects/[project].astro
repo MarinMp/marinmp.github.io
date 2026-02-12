@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import { marked } from "marked";
 
 export async function getStaticPaths() {
     const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md', { query: '?raw', import: 'default' });
@@ -17,12 +18,16 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
-// Load descriptions from the new location
+// Load descriptions
 const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md', { query: '?raw', import: 'default' });
 const enDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.en.md', { query: '?raw', import: 'default' });
 
 const esContent = await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]() as string;
 const enContent = await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]() as string;
+
+// Convert markdown to HTML (LO NUEVO)
+const esHTML = marked.parse(esContent);
+const enHTML = marked.parse(enContent);
 
 // Load images
 const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
@@ -122,6 +127,15 @@ const enData = parseProjectData(enContent);
 						</div>
 					</section>
 				)}
+
+				<!-- CONTENIDO LIBRE EN MARKDOWN (LO NUEVO) -->
+				<section class="mt-12">
+					<div class="locale-es text-gray-700 dark:text-gray-300 space-y-6"
+						set:html={esHTML} />
+					
+					<div class="locale-en text-gray-700 dark:text-gray-300 space-y-6"
+						set:html={enHTML} />
+				</section>
 
 				<!-- Gallery -->
 				{projectImages.length > 0 && (
