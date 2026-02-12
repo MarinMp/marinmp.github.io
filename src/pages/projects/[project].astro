@@ -17,23 +17,48 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
-// Import markdown files
+// Load descriptions from the new location
 const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md');
 const enDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.en.md');
 
-const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]())?.default;
-const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]())?.default;
+const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]()).default;
+const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]()).default;
 
-// Load images from assets
+// Load images
 const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
 const projectImages = Object.keys(allImages)
     .filter(path => path.includes(`/${project}/`))
-    .map(path => allImages[path].default.src);
+    .map(path => (allImages[path] as any).default.src);
 
 const translations = {
     backToProjects: { en: '← Back to Evidences', es: '← Volver a Evidencias' },
-    gallery: { en: 'Gallery', es: 'Galería' }
+    gallery: { en: 'Gallery', es: 'Galería' },
+    stack: { en: 'Technologies', es: 'Tecnologías' },
+    links: { en: 'Links', es: 'Enlaces' }
 };
+
+function parseProjectData(content: string) {
+    const lines = content.split('\n');
+    const title = lines[0].replace(/# /g, '').trim();
+    const summary = lines[1].trim();
+    
+    const stackIndex = lines.findIndex(l => l.includes('## Stack'));
+    const linksIndex = lines.findIndex(l => l.includes('## Links'));
+    
+    const stack = stackIndex !== -1 ? lines[stackIndex + 1].split(',').map(s => s.trim()) : [];
+    const linksRaw = linksIndex !== -1 ? lines.slice(linksIndex + 1).filter(l => l.trim()) : [];
+    
+    const links = linksRaw.map(l => {
+        const match = l.match(/\[(.*)\]\((.*)\)/);
+        if (match) return { label: match[1], url: match[2] };
+        return { label: l.trim(), url: null };
+    });
+
+    return { title, summary, stack, links };
+}
+
+const esData = parseProjectData(esContent);
+const enData = parseProjectData(enContent);
 ---
 
 <Layout title={`${project} | Paula Marín`}>
