@@ -17,48 +17,23 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
-// Load descriptions from the new location
+// Import markdown files
 const esDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.md');
 const enDescriptions = import.meta.glob('../../project-descriptions/*/descripcion.en.md');
 
-const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]()).default;
-const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]()).default;
+const EsContent = (await esDescriptions[`../../project-descriptions/${project}/descripcion.md`]())?.default;
+const EnContent = (await enDescriptions[`../../project-descriptions/${project}/descripcion.en.md`]())?.default;
 
-// Load images
+// Load images from assets
 const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
 const projectImages = Object.keys(allImages)
     .filter(path => path.includes(`/${project}/`))
-    .map(path => (allImages[path] as any).default.src);
+    .map(path => allImages[path].default.src);
 
 const translations = {
     backToProjects: { en: '← Back to Evidences', es: '← Volver a Evidencias' },
-    gallery: { en: 'Gallery', es: 'Galería' },
-    stack: { en: 'Technologies', es: 'Tecnologías' },
-    links: { en: 'Links', es: 'Enlaces' }
+    gallery: { en: 'Gallery', es: 'Galería' }
 };
-
-function parseProjectData(content: string) {
-    const lines = content.split('\n');
-    const title = lines[0].replace(/# /g, '').trim();
-    const summary = lines[1].trim();
-    
-    const stackIndex = lines.findIndex(l => l.includes('## Stack'));
-    const linksIndex = lines.findIndex(l => l.includes('## Links'));
-    
-    const stack = stackIndex !== -1 ? lines[stackIndex + 1].split(',').map(s => s.trim()) : [];
-    const linksRaw = linksIndex !== -1 ? lines.slice(linksIndex + 1).filter(l => l.trim()) : [];
-    
-    const links = linksRaw.map(l => {
-        const match = l.match(/\[(.*)\]\((.*)\)/);
-        if (match) return { label: match[1], url: match[2] };
-        return { label: l.trim(), url: null };
-    });
-
-    return { title, summary, stack, links };
-}
-
-const esData = parseProjectData(esContent);
-const enData = parseProjectData(enContent);
 ---
 
 <Layout title={`${project} | Paula Marín`}>
@@ -76,15 +51,20 @@ const enData = parseProjectData(enContent);
 
 			<!-- CONTENIDO COMPLETO DEL MARKDOWN -->
 			<section class="prose dark:prose-invert max-w-none">
-				<div class="locale-es">
-					<EsContent />
-				</div>
-				<div class="locale-en">
-					<EnContent />
-				</div>
+				{EsContent && (
+					<div class="locale-es">
+						<EsContent />
+					</div>
+				)}
+
+				{EnContent && (
+					<div class="locale-en">
+						<EnContent />
+					</div>
+				)}
 			</section>
 
-			<!-- Galería opcional (puedes dejarla si quieres mantener imágenes desde assets) -->
+			<!-- Galería opcional -->
 			{projectImages.length > 0 && (
 				<section class="mt-12">
 					<h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6"
