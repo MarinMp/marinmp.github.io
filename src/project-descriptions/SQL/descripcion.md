@@ -17,7 +17,7 @@ El objetivo fue diseñar y consultar una base de datos académica que permite:
 
 ## Imagen del Proyecto
 
-![SQL Screenshot](/assets/SQL/SQL.png)
+![SQL Screenshot](/assets/SQL/YO.jpg)
 
 ---
 
