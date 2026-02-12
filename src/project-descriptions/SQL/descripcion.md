@@ -1,31 +1,29 @@
-# Proyecto SQL Avanzado
+# SQL
 
-Este proyecto demuestra consultas avanzadas en bases de datos relacionales utilizando SQL.
-
----
-
-## Descripción
-
-El objetivo fue diseñar y consultar una base de datos académica que permite:
-
-- Registrar estudiantes
-- Registrar cursos
-- Relacionar estudiantes con cursos
-- Generar reportes estadísticos
+Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 
 ---
 
-## Imagen del Proyecto
+## Ejercicios Prácticos en Clase
 
-![SQL Screenshot](/SQL/SQL.png)
+### Modelo Relacional HR
+
+![SQL Screenshot](/SQL/modelo-relacional-hr.png)
 
 ---
 
 ## Consulta Principal
 
 ```sql
-SELECT students.name, courses.course_name
-FROM students
-JOIN enrollments ON students.id = enrollments.student_id
-JOIN courses ON enrollments.course_id = courses.id
-WHERE courses.active = 1;
+/*
+Autor: Paula Marín
+Fecha: 06/02/2026
+Descripción: Traer empleados con sus managers
+*/
+ 
+SELECT E.FIRST_NAME || ' ' || E.LAST_NAME AS NOMBRE_EMPLEADO,  
+       M.FIRST_NAME || ' ' || M.LAST_NAME NOMBRE_MANAGER
+FROM HR.EMPLOYEES E  
+LEFT JOIN HR.EMPLOYEES M  
+ON E.MANAGER_ID = M.EMPLOYEE_ID
+ORDER BY E.FIRST_NAME DESC;
