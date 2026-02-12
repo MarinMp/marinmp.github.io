@@ -26,14 +26,14 @@ const enModule = await enModules[`../../project-descriptions/${project}/descripc
 const ESContent = esModule.default;
 const ENContent = enModule.default;
 
+// Load images
 const allImages = import.meta.glob('../../assets/*/*.{png,jpg,jpeg,webp}', { eager: true });
 const projectImages = Object.keys(allImages)
     .filter(path => path.includes(`/${project}/`))
     .map(path => (allImages[path] as any).default.src);
 
 const translations = {
-    backToProjects: { en: '← Back to Evidences', es: '← Volver a Evidencias' },
-    gallery: { en: 'Gallery', es: 'Galería' }
+    backToProjects: { en: '← Back to Evidences', es: '← Volver a Evidencias' }
 };
 ---
 
