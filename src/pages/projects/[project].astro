@@ -17,7 +17,6 @@ export async function getStaticPaths() {
 
 const { project } = Astro.params;
 
-// 🔥 Importamos markdown como componente
 const esModules = import.meta.glob('../../project-descriptions/*/descripcion.md');
 const enModules = import.meta.glob('../../project-descriptions/*/descripcion.en.md');
 
@@ -38,10 +37,7 @@ const translations = {
 	<main class="min-h-screen px-4 sm:px-6 md:px-6">
 		<article class="max-w-3xl mx-auto pt-24 sm:pt-32 md:pt-48 pb-16 sm:pb-24 fade-in">
 			
-			<a 
-				href="/projects" 
-				class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors mb-8 inline-block"
-			>
+			<a href="/projects" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors mb-8 inline-block" data-en={translations.backToProjects.en} data-es={translations.backToProjects.es}>
 				{translations.backToProjects.en}
 			</a>
 
@@ -53,7 +49,6 @@ const translations = {
 					<ENContent />
 				</div>
 			</section>
-
 		</article>
 	</main>
 
