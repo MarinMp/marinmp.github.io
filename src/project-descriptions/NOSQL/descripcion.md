@@ -1,8 +1,6 @@
 # NoSQL
 Se documentarán prácticas utilizando bases de datos NoSQL.
 
-## Stack
+---
 
-
-## Links
-Privado
+## Ejercicios Prácticos en Clase
