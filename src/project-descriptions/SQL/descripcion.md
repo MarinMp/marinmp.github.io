@@ -8,7 +8,7 @@ Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 
 ### Modelo Relacional HR
 
-![SQL Screenshot](/SQL/modelo-relacional-hr.png)
+![SQL Screenshot](/SQL/hr-modelo-relacional.png)
 
 ---
 

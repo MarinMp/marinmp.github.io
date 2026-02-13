@@ -7,7 +7,7 @@ Queries and SQL exercises focused on relational modeling.
 
 ### HR Relational Model
 
-![SQL Screenshot](/SQL/modelo-relacional-hr.png)
+![SQL Screenshot](/SQL/hr-modelo-relacional.png)
 
 ---
 
