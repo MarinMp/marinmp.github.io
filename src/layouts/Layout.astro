@@ -6,7 +6,7 @@ interface Props {
 const { title } = Astro.props;
 
 
-const theme = Astro.cookies.get('theme')?.value || 'light';
+const theme = Astro.cookies.get('theme')?.value || 'dark';
 const isDark = theme === 'dark';
 
 import '../styles/global.css';
