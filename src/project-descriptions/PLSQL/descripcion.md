@@ -361,26 +361,6 @@ DBMS_OUTPUT.PUT_LINE('El país con más clubes es: ' || vv_pais);
 END;
 ```
 
-```sql
--- Bloque anónimo
--- Fecha: 16/02/2026
--- Descripción: Trae el país que tenga más cantidad de equipos de fútbol.
-
-DECLARE
-   vv_pais PAIS.NOM_PAIS%TYPE;
-BEGIN
-  SELECT P.NOM_PAIS INTO vv_pais
-FROM PAIS P
-     INNER JOIN EQUIPO E
-     ON P.COD_PAIS = E.COD_PAIS
-GROUP BY P.NOM_PAIS
-ORDER BY 1 DESC
-FETCH FIRST 1 ROWS ONLY;
- 
-DBMS_OUTPUT.PUT_LINE('El país con más clubes es: ' || vv_pais);
-END;
-```
-
 #### Procedimientos almacenados (SP) 
 
 ```sql
@@ -398,6 +378,5 @@ BEGIN
     
     COMMIT;
     DBMS_OUTPUT.PUT_LINE('Se actualizo el país: ' || TO_CHAR(vn_cod_pais));
-    
 END SP_ActualizaPais;
 ```
