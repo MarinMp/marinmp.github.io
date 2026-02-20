@@ -85,3 +85,35 @@ FROM HR.EMPLOYEES E
        ON L.COUNTRY_ID = C.COUNTRY_ID
 WHERE D.DEPARTMENT_ID IN (80, 90);
 ```
+
+```sql
+-- Autor: Paula Marín
+-- Fecha: 16/02/2026
+-- Descripción: Crea una tabla PAIS.
+ 
+ CREATE TABLE PAIS(
+    COD_PAIS NUMBER PRIMARY KEY,
+    NOM_PAIS VARCHAR2(100)
+);
+```
+
+```sql
+-- Autor: Paula Marín
+-- Fecha: 16/02/2026
+-- Descripción: Crea una tabla EQUIPO.
+ 
+CREATE TABLE EQUIPO(
+    COD_EQUIPO NUMBER PRIMARY KEY,
+    NOM_EQUIPO VARCHAR2(100),
+    COD_PAIS NUMBER
+);
+```
+
+```sql
+-- Autor: Paula Marín
+-- Fecha: 16/02/2026
+-- Descripción: Agrega una clave foránea en la tabla EQUIPO que vincula COD_PAIS con PAIS(COD_PAIS) y la activa.
+
+ALTER TABLE  EQUIPO ADD CONSTRAINT "EQUI_PA_FK" FOREIGN KEY ("COD_PAIS")
+      REFERENCES PAIS ("COD_PAIS") ENABLE;
+```
