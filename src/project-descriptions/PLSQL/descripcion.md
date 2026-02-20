@@ -7,7 +7,7 @@ Se incluirán procedimientos, funciones y triggers desarrollados en PL/SQL para 
 
 ### Modelo Relacional HR
 
-![MODELO RELACIONAL](/NOSQL/hr-modelo-relacional.png)
+![MODELO RELACIONAL](/PLSQL/hr-modelo-relacional.png)
 
 ---
 
