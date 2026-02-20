@@ -369,7 +369,7 @@ END;
 -- Descripción: Convierte a minúsculas el nombre de país y confirma la actualización mostrando un mensaje.
 
 CREATE OR REPLACE 
-PROCEDURE SP_ActualizaPais(vn_cod_pais IN  NUMBER)
+PROCEDURE SP_ActualizaPais(vn_cod_pais IN NUMBER)
 IS
 BEGIN
     UPDATE PAIS
