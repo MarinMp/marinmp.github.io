@@ -12,19 +12,15 @@ Se incluirán procedimientos, funciones y triggers desarrollados en PL/SQL para 
 ---
 
 ### Consultas
-
 ```sql
--- Autor: Paula Marín
+-- Bloque anónimo
 -- Fecha: 06/02/2026
--- Descripción: Traer nombre del empleado, apellido y cantidad de cargos =>2.
- 
-SELECT E.FIRST_NAME, 
-       E.EMPLOYEE_ID,
-       COUNT (J.JOB_ID)+1 
-FROM HR.EMPLOYEES E 
-     JOIN HR.JOB_HISTORY J 
-       ON E.EMPLOYEE_ID = J.EMPLOYEE_ID 
-GROUP BY E.FIRST_NAME, 
-         E.EMPLOYEE_ID 
-HAVING COUNT (J.JOB_ID)+1 >= 2; 
+-- Descripción: Obtiene la fecha y hora actual del sistema, la guarda en una variable y la muestra en pantalla.
+
+DECLARE
+    fecha timestamp;
+BEGIN
+    SELECT sysdate INTO fecha FROM dual;
+    dbms_output.put_line('La fecha es: ' || fecha);
+END;
 ```
