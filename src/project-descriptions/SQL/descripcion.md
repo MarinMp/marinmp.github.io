@@ -17,7 +17,7 @@ Se publicarán consultas y ejercicios SQL enfocados en modelado relacional.
 ```sql
 -- Autor: Paula Marín
 -- Fecha: 06/02/2026
--- Descripción: Traer nombre del empleado, apellido y cantidad de cargos =>2.
+-- Descripción: Trae el nombre del empleado, apellido y cantidad de cargos =>2.
  
 SELECT E.FIRST_NAME, 
        E.EMPLOYEE_ID,
@@ -33,7 +33,7 @@ HAVING COUNT (J.JOB_ID)+1 >= 2;
 ```sql
 -- Autor: Paula Marín
 -- Fecha: 06/02/2026
--- Descripción: Traer el nombre del empleado, país y salario de empleados que vivan o trabajen en Europa y que ganen entre 7000 y 9000 dólares.
+-- Descripción: Trae el nombre del empleado, país y salario de empleados que vivan o trabajen en Europa y que ganen entre 7000 y 9000 dólares.
  
 SELECT E.FIRST_NAME,
        E.LAST_NAME,
@@ -55,7 +55,7 @@ WHERE R.REGION_NAME = 'Europe'
 ```sql
 -- Autor: Paula Marín
 -- Fecha: 06/02/2026
--- Descripción: Traer empleados con sus managers.
+-- Descripción: Trae empleados con sus managers.
  
 SELECT E.FIRST_NAME || ' ' || E.LAST_NAME AS NOMBRE_EMPLEADO,  
        M.FIRST_NAME || ' ' || M.LAST_NAME NOMBRE_MANAGER
@@ -68,7 +68,7 @@ ORDER BY E.FIRST_NAME DESC;
 ```sql
 -- Autor: Paula Marín
 -- Fecha: 09/02/2026
--- Descripción: Copiar la tabla de 'EMPLOYEES' donde los empleados pertenezan al departamento 80 y 90.
+-- Descripción: Copia la tabla de 'EMPLOYEES' donde los empleados pertenezan al departamento 80 y 90.
  
 CREATE TABLE EMPLEADO AS
 SELECT E.FIRST_NAME,
