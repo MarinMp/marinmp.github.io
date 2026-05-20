@@ -117,3 +117,14 @@ CREATE TABLE EQUIPO(
 ALTER TABLE  EQUIPO ADD CONSTRAINT "EQUI_PA_FK" FOREIGN KEY ("COD_PAIS")
       REFERENCES PAIS ("COD_PAIS") ENABLE;
 ```
+
+#### Sentencias DCL
+
+```sql
+-- Autor: Paula Marín
+-- Fecha: 27/02/2026
+-- Descripción: Otorga permisos de SELECT, INSERT y UPDATE sobre la tabla DEPARTMENTS a usuarios específicos.
+
+GRANT SELECT, INSERT, UPDATE
+ON DEPARTMENTS
+TO dcrodriguezl, dortizort;

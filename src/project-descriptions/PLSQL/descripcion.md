@@ -380,3 +380,92 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Se actualizo el país: ' || TO_CHAR(vn_cod_pais));
 END SP_ActualizaPais;
 ```
+
+#### Cursores explícitos
+
+```sql
+-- Nombre: cur_empleado
+-- Autor: Paula Marín
+-- Fecha: 27/02/2026
+-- Descripción: Recorre todos los empleados utilizando un cursor explícito e imprime información básica del empleado.
+
+DECLARE
+    CURSOR cur_empleados IS
+        SELECT employee_id,
+               first_name,
+               last_name,
+               salary,
+               department_id
+        FROM employees;
+
+    registro cur_empleados%ROWTYPE;
+
+BEGIN
+    OPEN cur_empleados;
+
+    LOOP
+        FETCH cur_empleados
+        INTO registro;
+
+        EXIT WHEN cur_empleados%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'ID: ' || registro.employee_id ||
+            ' Nombre: ' ||
+            registro.first_name || ' ' ||
+            registro.last_name ||
+            ' Salario: ' ||
+            registro.salary ||
+            ' Departamento: ' ||
+            registro.department_id
+        );
+    END LOOP;
+
+    CLOSE cur_empleados;
+END;
+```
+
+```sql
+-- Nombre: cur_empleado
+-- Autor: Paula Marín
+-- Fecha: 27/02/2026
+-- Descripción: Recorre los empleados de un departamento específico utilizando un cursor explícito con parámetro.
+
+DECLARE
+    CURSOR cur_empleados(
+        vn_departamento IN NUMBER
+    ) IS
+        SELECT employee_id,
+               first_name,
+               last_name,
+               salary,
+               department_id
+        FROM employees
+        WHERE department_id = vn_departamento;
+
+    registro cur_empleados%ROWTYPE;
+
+BEGIN
+    OPEN cur_empleados(80);
+
+    LOOP
+        FETCH cur_empleados
+        INTO registro;
+
+        EXIT WHEN cur_empleados%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'ID: ' || registro.employee_id ||
+            ' Nombre: ' ||
+            registro.first_name || ' ' ||
+            registro.last_name ||
+            ' Salario: ' ||
+            registro.salary ||
+            ' Departamento: ' ||
+            registro.department_id
+        );
+    END LOOP;
+
+    CLOSE cur_empleados;
+END;
+```
