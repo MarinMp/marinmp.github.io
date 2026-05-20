@@ -364,6 +364,22 @@ END;
 #### Procedimientos almacenados (SP) 
 
 ```sql
+-- Nombre SP: SP_Imprimir
+-- Autor: Paula Marín
+-- Fecha: 16/02/2026
+-- Descripción: Recibe un parámetro de entrada tipo VARCHAR2 e imprime su contenido mediante DBMS_OUTPUT.PUT_LINE.
+
+CREATE OR REPLACE
+PROCEDURE SP_Imprimir(param_salida VARCHAR2)
+IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Mensaje recibido: ' || param_salida
+    );
+END SP_Imprimir;
+```
+
+```sql
 -- Nombre SP: SP_ActualizaPais
 -- Fecha: 16/02/2026
 -- Descripción: Convierte a minúsculas el nombre de país y confirma la actualización mostrando un mensaje.
@@ -377,8 +393,202 @@ BEGIN
     WHERE COD_PAIS = vn_cod_pais;
     
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Se actualizo el país: ' || TO_CHAR(vn_cod_pais));
+    DBMS_OUTPUT.PUT_LINE('Se actualizó el país: ' || TO_CHAR(vn_cod_pais));
 END SP_ActualizaPais;
+```
+
+```sql
+-- Nombre SP: SP_Fibonacci
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Imprime la serie de Fibonacci utilizando un procedimiento almacenado con parámetros de entrada para definir el límite y el valor inicial.
+
+CREATE OR REPLACE PROCEDURE SP_Fibonacci(
+    param_limite IN NUMBER,
+    param_inicial IN NUMBER
+)
+IS
+    vn_limite NUMBER := param_limite;
+    vn_impresion NUMBER := param_inicial;
+    vn_aux NUMBER := param_inicial;
+    vn_aux2 NUMBER := 1;
+
+BEGIN
+    WHILE vn_limite >= vn_impresion LOOP
+
+        DBMS_OUTPUT.PUT_LINE(
+            TO_CHAR(vn_impresion)
+        );
+
+        IF vn_impresion = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(1);
+        END IF;
+
+        vn_impresion := vn_aux + vn_aux2;
+        vn_aux := vn_aux2;
+        vn_aux2 := vn_impresion;
+
+    END LOOP;
+END SP_Fibonacci;
+```
+
+```sql
+-- Nombre SP: SP_Fibonacci_IO
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Genera la serie Fibonacci hasta un límite definido mediante un parámetro de entrada y devuelve el último valor generado mediante un parámetro de salida.
+
+CREATE OR REPLACE PROCEDURE SP_Fibonacci_IO(
+    param_limite IN NUMBER,
+    param_resultado OUT NUMBER
+)
+IS
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci:'
+    );
+
+    LOOP
+        EXIT WHEN vn_a > param_limite;
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+
+        param_resultado := vn_a;
+
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+END SP_Fibonacci_IO;
+```
+
+#### Estructuras repetitivas (Fibonacci)
+
+
+```sql
+-- Bloque anónimo
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Imprime la serie Fibonacci utilizando un ciclo LOOP hasta alcanzar un valor máximo de 100.
+
+DECLARE
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci:'
+    );
+
+    LOOP
+        EXIT WHEN vn_a > 100;
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+END;
+```
+
+```sql
+-- Bloque anónimo
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Imprime la serie Fibonacci utilizando un ciclo FOR en orden normal.
+
+DECLARE
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci (normal):'
+    );
+
+    FOR i IN 1..10 LOOP
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+END;
+```
+
+```sql
+-- Bloque anónimo
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Genera la serie Fibonacci y la imprime en orden inverso utilizando FOR REVERSE.
+
+DECLARE
+    TYPE t_fibonacci IS TABLE OF NUMBER
+    INDEX BY PLS_INTEGER;
+
+    v_lista t_fibonacci;
+
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+
+BEGIN
+    FOR i IN 1..10 LOOP
+
+        v_lista(i) := vn_a;
+
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci (reversa):'
+    );
+
+    FOR i IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(v_lista(i));
+    END LOOP;
+END;
+```
+
+#### Cursores ímplicitos
+
+```sql
+-- Bloque anónimo
+-- Autor: Paula Marín
+-- Fecha: 23/02/2026
+-- Descripción: Solicita el nombre de un equipo mediante una variable de sustitución y recorre el resultado utilizando un FOR LOOP para imprimir el nombre del equipo encontrado.
+
+DECLARE
+    v_nombre EQUIPO.NOM_EQUIPO%TYPE := '&nombre_equipo';
+
+BEGIN
+    FOR r IN (
+        SELECT NOM_EQUIPO
+        FROM EQUIPO
+        WHERE NOM_EQUIPO = v_nombre
+    )
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            'Equipo encontrado: ' || r.NOM_EQUIPO
+        );
+
+        EXIT;
+    END LOOP;
+END;
 ```
 
 #### Cursores explícitos
