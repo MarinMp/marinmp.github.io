@@ -596,7 +596,7 @@ END;
 ```sql
 -- Nombre: cur_empleado
 -- Autor: Paula Marín
--- Fecha: 27/02/2026
+-- Fecha: 02/03/2026
 -- Descripción: Recorre todos los empleados utilizando un cursor explícito e imprime información básica del empleado.
 
 DECLARE
@@ -638,7 +638,7 @@ END;
 ```sql
 -- Nombre: cur_empleado
 -- Autor: Paula Marín
--- Fecha: 27/02/2026
+-- Fecha: 02/03/2026
 -- Descripción: Recorre los empleados de un departamento específico utilizando un cursor explícito con parámetro.
 
 DECLARE
@@ -679,3 +679,109 @@ BEGIN
     CLOSE cur_empleados;
 END;
 ```
+
+#### Funciones almacenadas
+
+```sql
+-- Nombre función: ES_PALINDROMO
+-- Autor: Paula Marín
+-- Fecha: 06/03/2026
+-- Descripción: Verifica si una palabra es palíndroma comparando el texto original con su versión invertida y retorna un mensaje indicando el resultado.
+
+CREATE OR REPLACE FUNCTION ES_PALINDROMO(
+    p_palabra VARCHAR2
+)
+RETURN VARCHAR2
+IS
+    palabra_invertida VARCHAR2(100) := '';
+    longitud NUMBER;
+
+BEGIN
+    longitud := LENGTH(p_palabra);
+
+    FOR i IN REVERSE 1..longitud LOOP
+        palabra_invertida :=
+            palabra_invertida ||
+            SUBSTR(
+                p_palabra,
+                i,
+                1
+            );
+    END LOOP;
+
+    IF LOWER(p_palabra) =
+       LOWER(palabra_invertida)
+    THEN
+        RETURN 'SI es palindromo';
+    ELSE
+        RETURN 'NO es palindromo';
+    END IF;
+
+END ES_PALINDROMO;
+```
+
+#### Paquetes
+
+```sql
+-- Nombre Package: PCK_CalcularNomina
+-- Autor: Paula Marín
+-- Fecha: 06/03/2026
+-- Descripción: Define procedimientos y funciones relacionados con el cálculo de nómina, incluyendo bonificación, horas trabajadas y salario.
+
+CREATE OR REPLACE PACKAGE PCK_CalcularNomina
+IS
+
+    PROCEDURE sp_calcularBonificacion(
+        cod_empleado VARCHAR2
+    );
+
+    FUNCTION fn_calcularHorasE(
+        cod_empleado VARCHAR2
+    )
+    RETURN NUMBER;
+
+END PCK_CalcularNomina;
+```
+
+```sql
+-- Nombre Package Body: PCK_CalcularNomina
+-- Autor: Paula Marín
+-- Fecha: 06/03/2026
+-- Descripción: Implementa la lógica de los procedimientos y funciones definidos en el paquete PCK_CalcularNomina.
+
+CREATE OR REPLACE PACKAGE BODY PCK_CalcularNomina
+IS
+
+    PROCEDURE sp_calcularBonificacion(
+        cod_empleado VARCHAR2
+    )
+    IS
+    BEGIN
+
+        fn_calcularSalario(
+            '125', 80);
+
+    END sp_calcularBonificacion;
+
+    FUNCTION fn_calcularHorasE(
+        cod_empleado VARCHAR2
+    )
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN 0;
+    END fn_calcularHorasE;
+
+    FUNCTION fn_calcularSalario(
+        cod_empleado VARCHAR2,
+        cod_depto NUMBER
+    )
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN 0;
+    END fn_calcularSalario;
+
+END PCK_CalcularNomina;
+```
+
