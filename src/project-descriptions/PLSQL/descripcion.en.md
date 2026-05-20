@@ -4,3 +4,883 @@ PL/SQL procedures, functions, and triggers developed to automate database proces
 ---
 
 ## Practical Class Exercises
+
+### HR Relational Model
+
+![MODELO RELACIONAL](/PLSQL/hr-modelo-relacional.png)
+
+---
+
+### Queries
+
+```sql
+-- 
+-- Description: Enables the output of DBMS_OUTPUT.PUT_LINE messages.
+
+SET SERVEROUTPUT ON; 
+```
+
+#### Anonymous Blocks
+
+```sql
+-- Anonymous block
+-- Date: 13/02/2026
+-- Description: Get the current system date and time.
+
+DECLARE
+    fecha timestamp;
+BEGIN
+    SELECT sysdate INTO fecha FROM dual;
+
+    DBMS_OUTPUT.PUT_LINE('The date is: ' || fecha);
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 13/02/2026
+-- Description: Get the salary of the employee with ID 109 using %TYPE.
+
+DECLARE 
+    v_salario HR.EMPLOYEES.SALARY%TYPE;
+BEGIN
+    SELECT SALARY INTO  v_salario
+    FROM HR.EMPLOYEES
+    WHERE EMPLOYEE_ID = 109;
+
+    DBMS_OUTPUT.PUT_LINE('The salary is: ' || v_salario);
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 13/02/2026
+-- Description: Gets the name, salary of the employee with ID 109 and their hiring date using %TYPE.
+
+DECLARE 
+    v_fecha_contratacion HR.EMPLOYEES.HIRE_DATE%TYPE;
+    v_salario HR.EMPLOYEES.SALARY%TYPE;
+    v_nombre HR.EMPLOYEES.FIRST_NAME%TYPE;
+BEGIN
+    SELECT SALARY, FIRST_NAME, HIRE_DATE INTO v_salario, v_nombre, v_fecha_contratacion
+    FROM HR.EMPLOYEES
+    WHERE EMPLOYEE_ID = 109;
+
+    DBMS_OUTPUT.PUT_LINE('The employees name is: ' || v_nombre || ', their salary is: ' || v_salario || ' and the hiring date is: ' || v_fecha_contratacion);
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 13/02/2026
+-- Description: Gets the name, salary of the employee with ID 109 and their hiring date using %ROWTYPE.
+
+DECLARE 
+    v_empleado HR.EMPLOYEES%ROWTYPE;
+BEGIN
+    SELECT * INTO v_empleado
+    FROM HR.EMPLOYEES
+    WHERE EMPLOYEE_ID = 109;
+
+    DBMS_OUTPUT.PUT_LINE('The employees name is: ' || v_empleado.FIRST_NAME || ', their salary is: ' || v_empleado.SALARY || ' and the hiring date is: ' || v_empleado.HIRE_DATE);
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 13/02/2026
+-- Description: Gets the name, salary of the employee with ID 109, their hiring date and makes an additional salary calculation using the commission (if it exists; if not, it takes 0 with NVL) using %ROWTYPE.
+
+DECLARE 
+    v_empleado HR.EMPLOYEES%ROWTYPE;
+BEGIN
+    SELECT * INTO v_empleado
+    FROM HR.EMPLOYEES
+    WHERE EMPLOYEE_ID = 109;
+
+    DBMS_OUTPUT.PUT_LINE('The employees name is: ' || v_empleado.FIRST_NAME || ', their salary is: ' || v_empleado.SALARY || ' and the hiring date is: ' || v_empleado.HIRE_DATE || '. Due to the government, his salary is: ' || to_char(v_empleado.SALARY * NVL(v_empleado.commission.pct,0)));
+END;
+```
+
+#### Data Insertion
+
+```sql
+-- Anonymous block
+-- Date: 16/02/2026
+-- Description: Insert the records of 198 countries into the PAIS table within a PL/SQL block.
+
+BEGIN
+INSERT INTO PAIS VALUES (1,'AFGANISTÁN');
+INSERT INTO PAIS VALUES (2,'ALBANIA');
+INSERT INTO PAIS VALUES (3,'ALEMANIA');
+INSERT INTO PAIS VALUES (4,'ANDORRA');
+INSERT INTO PAIS VALUES (5,'ANGOLA');
+INSERT INTO PAIS VALUES (6,'ANTIGUA Y BARBUDA');
+INSERT INTO PAIS VALUES (7,'ARABIA SAUDITA');
+INSERT INTO PAIS VALUES (8,'ARGELIA');
+INSERT INTO PAIS VALUES (9,'ARGENTINA');
+INSERT INTO PAIS VALUES (10,'ARMENIA');
+INSERT INTO PAIS VALUES (11,'AUSTRALIA');
+INSERT INTO PAIS VALUES (12,'AUSTRIA');
+INSERT INTO PAIS VALUES (13,'AZERBAIYÁN');
+INSERT INTO PAIS VALUES (14,'BAHAMAS');
+INSERT INTO PAIS VALUES (15,'BANGLADÉS');
+INSERT INTO PAIS VALUES (16,'BARBADOS');
+INSERT INTO PAIS VALUES (17,'BARÉIN');
+INSERT INTO PAIS VALUES (18,'BÉLGICA');
+INSERT INTO PAIS VALUES (19,'BELICE');
+INSERT INTO PAIS VALUES (20,'BENIN');
+INSERT INTO PAIS VALUES (21,'BIELORRUSIA');
+INSERT INTO PAIS VALUES (22,'BOLIVIA');
+INSERT INTO PAIS VALUES (23,'BOSNIA Y HERZEGOVINA');
+INSERT INTO PAIS VALUES (24,'BOTSUANA');
+INSERT INTO PAIS VALUES (25,'BRASIL');
+INSERT INTO PAIS VALUES (26,'BRUNEI');
+INSERT INTO PAIS VALUES (27,'BULGARIA');
+INSERT INTO PAIS VALUES (28,'BURKINA FASO');
+INSERT INTO PAIS VALUES (29,'BURUNDI');
+INSERT INTO PAIS VALUES (30,'BUTÁN');
+INSERT INTO PAIS VALUES (31,'CABO VERDE');
+INSERT INTO PAIS VALUES (32,'CAMBOYA');
+INSERT INTO PAIS VALUES (33,'CAMERÚN');
+INSERT INTO PAIS VALUES (34,'CANADÁ');
+INSERT INTO PAIS VALUES (35,'CATAR');
+INSERT INTO PAIS VALUES (36,'CHAD');
+INSERT INTO PAIS VALUES (37,'CHILE');
+INSERT INTO PAIS VALUES (38,'CHINA');
+INSERT INTO PAIS VALUES (39,'CHIPRE');
+INSERT INTO PAIS VALUES (40,'COLOMBIA');
+INSERT INTO PAIS VALUES (41,'COMORAS');
+INSERT INTO PAIS VALUES (42,'COREA DEL NORTE');
+INSERT INTO PAIS VALUES (43,'COREA DEL SUR');
+INSERT INTO PAIS VALUES (44,'COSTA DE MARFIL');
+INSERT INTO PAIS VALUES (45,'COSTA RICA');
+INSERT INTO PAIS VALUES (46,'CROACIA');
+INSERT INTO PAIS VALUES (47,'CUBA');
+INSERT INTO PAIS VALUES (48,'DINAMARCA');
+INSERT INTO PAIS VALUES (49,'DOMINICA');
+INSERT INTO PAIS VALUES (50,'ECUADOR');
+INSERT INTO PAIS VALUES (51,'EGIPTO');
+INSERT INTO PAIS VALUES (52,'EL SALVADOR');
+INSERT INTO PAIS VALUES (53,'EMIRATOS ARABES UNIDOS');
+INSERT INTO PAIS VALUES (54,'ERITREA');
+INSERT INTO PAIS VALUES (55,'ESLOVAQUIA');
+INSERT INTO PAIS VALUES (56,'ESLOVENIA');
+INSERT INTO PAIS VALUES (57,'ESPAÑA');
+INSERT INTO PAIS VALUES (58,'ESTADOS UNIDOS');
+INSERT INTO PAIS VALUES (59,'ESTONIA');
+INSERT INTO PAIS VALUES (60,'ETIOPÍA');
+INSERT INTO PAIS VALUES (61,'FILIPINAS');
+INSERT INTO PAIS VALUES (62,'FINLANDIA');
+INSERT INTO PAIS VALUES (63,'FIYI');
+INSERT INTO PAIS VALUES (64,'FRANCIA');
+INSERT INTO PAIS VALUES (65,'GABÓN');
+INSERT INTO PAIS VALUES (66,'GAMBIA');
+INSERT INTO PAIS VALUES (67,'GEORGIA');
+INSERT INTO PAIS VALUES (68,'GHANA');
+INSERT INTO PAIS VALUES (69,'GRANADA');
+INSERT INTO PAIS VALUES (70,'GRECIA');
+INSERT INTO PAIS VALUES (71,'GUATEMALA');
+INSERT INTO PAIS VALUES (72,'GUINEA');
+INSERT INTO PAIS VALUES (73,'GUINEA ECUATORIAL');
+INSERT INTO PAIS VALUES (74,'GUINEA-BISSAU');
+INSERT INTO PAIS VALUES (75,'GUYANA');
+INSERT INTO PAIS VALUES (76,'HAITÍ');
+INSERT INTO PAIS VALUES (77,'HONDURAS');
+INSERT INTO PAIS VALUES (78,'HUNGRÍA');
+INSERT INTO PAIS VALUES (79,'INDIA');
+INSERT INTO PAIS VALUES (80,'INDONESIA');
+INSERT INTO PAIS VALUES (81,'IRÁN');
+INSERT INTO PAIS VALUES (82,'IRAQ');
+INSERT INTO PAIS VALUES (83,'IRLANDA');
+INSERT INTO PAIS VALUES (84,'ISLANDIA');
+INSERT INTO PAIS VALUES (85,'ISLAS MARSHALL');
+INSERT INTO PAIS VALUES (86,'ISLAS SALOMÓN');
+INSERT INTO PAIS VALUES (87,'ISRAEL');
+INSERT INTO PAIS VALUES (88,'ITALIA');
+INSERT INTO PAIS VALUES (89,'JAMAICA');
+INSERT INTO PAIS VALUES (90,'JAPÓN');
+INSERT INTO PAIS VALUES (91,'JORDANIA');
+INSERT INTO PAIS VALUES (92,'KAZAJISTÁN');
+INSERT INTO PAIS VALUES (93,'KENIA');
+INSERT INTO PAIS VALUES (94,'KIRGUISTÁN');
+INSERT INTO PAIS VALUES (95,'KIRIBATI');
+INSERT INTO PAIS VALUES (96,'KUWAIT');
+INSERT INTO PAIS VALUES (97,'LAOS');
+INSERT INTO PAIS VALUES (98,'LESOTO');
+INSERT INTO PAIS VALUES (99,'LETONIA');
+INSERT INTO PAIS VALUES (100,'LÍBANO');
+INSERT INTO PAIS VALUES (101,'LIBERIA');
+INSERT INTO PAIS VALUES (102,'LIBIA');
+INSERT INTO PAIS VALUES (103,'LIECHTENSTEIN');
+INSERT INTO PAIS VALUES (104,'LITUANIA');
+INSERT INTO PAIS VALUES (105,'LUXEMBURGO');
+INSERT INTO PAIS VALUES (106,'MADAGASCAR');
+INSERT INTO PAIS VALUES (107,'MALASIA');
+INSERT INTO PAIS VALUES (108,'MALAUI');
+INSERT INTO PAIS VALUES (109,'MALDIVAS');
+INSERT INTO PAIS VALUES (110,'MALI');
+INSERT INTO PAIS VALUES (111,'MALTA');
+INSERT INTO PAIS VALUES (112,'MARRUECOS');
+INSERT INTO PAIS VALUES (113,'MAURICIO');
+INSERT INTO PAIS VALUES (114,'MAURITANIA');
+INSERT INTO PAIS VALUES (115,'MÉXICO');
+INSERT INTO PAIS VALUES (116,'MICRONESIA');
+INSERT INTO PAIS VALUES (117,'MOLDAVIA');
+INSERT INTO PAIS VALUES (118,'MÓNACO');
+INSERT INTO PAIS VALUES (119,'MONGOLIA');
+INSERT INTO PAIS VALUES (120,'MONTENEGRO');
+INSERT INTO PAIS VALUES (121,'MOZAMBIQUE');
+INSERT INTO PAIS VALUES (122,'MYANMAR (BIRMANIA)');
+INSERT INTO PAIS VALUES (123,'NAMIBIA');
+INSERT INTO PAIS VALUES (124,'NAURU');
+INSERT INTO PAIS VALUES (125,'NEPAL');
+INSERT INTO PAIS VALUES (126,'NICARAGUA');
+INSERT INTO PAIS VALUES (127,'NÍGER');
+INSERT INTO PAIS VALUES (128,'NIGERIA');
+INSERT INTO PAIS VALUES (129,'NORUEGA');
+INSERT INTO PAIS VALUES (130,'NUEVA ZELANDA');
+INSERT INTO PAIS VALUES (131,'OMÁN');
+INSERT INTO PAIS VALUES (132,'PAÍSES BAJOS');
+INSERT INTO PAIS VALUES (133,'PAKISTÁN');
+INSERT INTO PAIS VALUES (134,'PALAOS');
+INSERT INTO PAIS VALUES (135,'PALESTINA');
+INSERT INTO PAIS VALUES (136,'PANAMÁ');
+INSERT INTO PAIS VALUES (137,'PAPÚA NUEVA GUINEA');
+INSERT INTO PAIS VALUES (138,'PARAGUAY');
+INSERT INTO PAIS VALUES (139,'PERÚ');
+INSERT INTO PAIS VALUES (140,'POLONIA');
+INSERT INTO PAIS VALUES (141,'PORTUGAL');
+INSERT INTO PAIS VALUES (142,'PUERTO RICO');
+INSERT INTO PAIS VALUES (143,'REINO UNIDO');
+INSERT INTO PAIS VALUES (144,'REPÚBLICA CENTROAFRICANA');
+INSERT INTO PAIS VALUES (145,'REPÚBLICA CHECA');
+INSERT INTO PAIS VALUES (146,'REPÚBLICA DE MACEDONIA');
+INSERT INTO PAIS VALUES (147,'REPÚBLICA DEL CONGO');
+INSERT INTO PAIS VALUES (148,'REPÚBLICA DEMOCRÁTICA DEL CONGO');
+INSERT INTO PAIS VALUES (149,'REPÚBLICA DOMINICANA');
+INSERT INTO PAIS VALUES (150,'REPÚBLICA SAHARAUI');
+INSERT INTO PAIS VALUES (151,'RUANDA');
+INSERT INTO PAIS VALUES (152,'RUMANIA');
+INSERT INTO PAIS VALUES (153,'RUSIA');
+INSERT INTO PAIS VALUES (154,'SAMOA');
+INSERT INTO PAIS VALUES (155,'SAN CRISTÓBAL Y NIEVES');
+INSERT INTO PAIS VALUES (156,'SAN MARINO');
+INSERT INTO PAIS VALUES (157,'SAN VICENTE Y LAS GRANADINAS');
+INSERT INTO PAIS VALUES (158,'SANTA LUCÍA');
+INSERT INTO PAIS VALUES (159,'SANTO TOMÉ Y PRÍNCIPE');
+INSERT INTO PAIS VALUES (160,'SENEGAL');
+INSERT INTO PAIS VALUES (161,'SERBIA');
+INSERT INTO PAIS VALUES (162,'SEYCHELLES');
+INSERT INTO PAIS VALUES (163,'SIERRA LEONA');
+INSERT INTO PAIS VALUES (164,'SINGAPUR');
+INSERT INTO PAIS VALUES (165,'SIRIA');
+INSERT INTO PAIS VALUES (166,'SOMALIA');
+INSERT INTO PAIS VALUES (167,'SRI LANKA');
+INSERT INTO PAIS VALUES (168,'SUAZILANDIA');
+INSERT INTO PAIS VALUES (169,'SUDÁFRICA');
+INSERT INTO PAIS VALUES (170,'SUDÁN DEL NORTE');
+INSERT INTO PAIS VALUES (171,'SUDÁN DEL SUR');
+INSERT INTO PAIS VALUES (172,'SUECIA');
+INSERT INTO PAIS VALUES (173,'SUIZA');
+INSERT INTO PAIS VALUES (174,'SURINAM');
+INSERT INTO PAIS VALUES (175,'TAILANDIA');
+INSERT INTO PAIS VALUES (176,'TAIWAN');
+INSERT INTO PAIS VALUES (177,'TANZANIA');
+INSERT INTO PAIS VALUES (178,'TAYIKISTÁN');
+INSERT INTO PAIS VALUES (179,'TIMOR ORIENTAL');
+INSERT INTO PAIS VALUES (180,'TOGO');
+INSERT INTO PAIS VALUES (181,'TONGA');
+INSERT INTO PAIS VALUES (182,'TRINIDAD Y TOBAGO');
+INSERT INTO PAIS VALUES (183,'TÚNEZ');
+INSERT INTO PAIS VALUES (184,'TURKMENISTÁN');
+INSERT INTO PAIS VALUES (185,'TURQUÍA');
+INSERT INTO PAIS VALUES (186,'TUVALU');
+INSERT INTO PAIS VALUES (187,'UCRANIA');
+INSERT INTO PAIS VALUES (188,'UGANDA');
+INSERT INTO PAIS VALUES (189,'URUGUAY');
+INSERT INTO PAIS VALUES (190,'UZBEKISTÁN');
+INSERT INTO PAIS VALUES (191,'VANUATU');
+INSERT INTO PAIS VALUES (192,'VATICANO');
+INSERT INTO PAIS VALUES (193,'VENEZUELA');
+INSERT INTO PAIS VALUES (194,'VIETNAM');
+INSERT INTO PAIS VALUES (195,'YEMEN');
+INSERT INTO PAIS VALUES (196,'YIBUTI');
+INSERT INTO PAIS VALUES (197,'ZAMBIA');
+INSERT INTO PAIS VALUES (198,'ZIMBABUE');
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 16/02/2026
+-- Description: Insert the records of 24 teams into the TEAM table within a PL/SQL block.
+
+BEGIN
+INSERT INTO EQUIPO VALUES (1,'Real Madrid',57);
+INSERT INTO EQUIPO VALUES (2,'FC Barcelona',57);
+INSERT INTO EQUIPO VALUES (3,'Atlético de Madrid',57);
+INSERT INTO EQUIPO VALUES (4,'Manchester City',143);
+INSERT INTO EQUIPO VALUES (5,'Liverpool FC',143);
+INSERT INTO EQUIPO VALUES (6,'Arsenal FC',143);
+INSERT INTO EQUIPO VALUES (7,'Manchester United',143);
+INSERT INTO EQUIPO VALUES (8,'Chelsea FC',143);
+INSERT INTO EQUIPO VALUES (9,'Bayern Múnich',3);
+INSERT INTO EQUIPO VALUES (10,'Borussia Dortmund',3);
+INSERT INTO EQUIPO VALUES (11,'AC Milan',88);
+INSERT INTO EQUIPO VALUES (12,'Inter de Milán',88);
+INSERT INTO EQUIPO VALUES (13,'Juventus',88);
+INSERT INTO EQUIPO VALUES (14,'Paris Saint-Germain',64);
+INSERT INTO EQUIPO VALUES (15,'Benfica',141);
+INSERT INTO EQUIPO VALUES (16,'FC Porto',141);
+INSERT INTO EQUIPO VALUES (17,'Ajax',132);
+INSERT INTO EQUIPO VALUES (18,'Boca Juniors',9);
+INSERT INTO EQUIPO VALUES (19,'River Plate',9);
+INSERT INTO EQUIPO VALUES (20,'Flamengo',25);
+INSERT INTO EQUIPO VALUES (21,'Palmeiras',25);
+INSERT INTO EQUIPO VALUES (22,'Club América',115);
+INSERT INTO EQUIPO VALUES (23,'Monterrey',115);
+INSERT INTO EQUIPO VALUES (24,'America de Cali',40);
+END;
+```
+
+```sql
+-- Anonymous block
+-- Date: 16/02/2026
+-- Description: Bring the country that has the most football teams.
+
+DECLARE
+   vv_pais PAIS.NOM_PAIS%TYPE;
+BEGIN
+  SELECT P.NOM_PAIS INTO vv_pais
+FROM PAIS P
+     INNER JOIN EQUIPO E
+     ON P.COD_PAIS = E.COD_PAIS
+GROUP BY P.NOM_PAIS
+ORDER BY 1 DESC
+FETCH FIRST 1 ROWS ONLY;
+ 
+DBMS_OUTPUT.PUT_LINE('The country with the most clubs is: ' || vv_pais);
+END;
+```
+
+#### Stored Procedures
+
+```sql
+-- Name SP: SP_Imprimir
+-- Author: Paula Marín
+-- Date: 16/02/2026
+-- Description: Receives an input parameter of type VARCHAR2 and prints its contents using DBMS_OUTPUT.PUT_LINE.
+
+CREATE OR REPLACE
+PROCEDURE SP_Imprimir(param_salida VARCHAR2)
+IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Message received: ' || param_salida
+    );
+END SP_Imprimir;
+```
+
+```sql
+-- Name SP: SP_ActualizaPais
+-- Date: 16/02/2026
+-- Description: Convert the country name to lowercase and confirm the update by displaying a message.
+
+CREATE OR REPLACE 
+PROCEDURE SP_ActualizaPais(vn_cod_pais IN NUMBER)
+IS
+BEGIN
+    UPDATE PAIS
+    SET nom_pais = LOWER(nom_pais)
+    WHERE COD_PAIS = vn_cod_pais;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('The country has been updated: ' || TO_CHAR(vn_cod_pais));
+END SP_ActualizaPais;
+```
+
+```sql
+-- Name SP: SP_Fibonacci
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Print the Fibonacci series using a stored procedure with input parameters to define the limit and initial value.
+
+CREATE OR REPLACE PROCEDURE SP_Fibonacci(
+    param_limite IN NUMBER,
+    param_inicial IN NUMBER
+)
+IS
+    vn_limite NUMBER := param_limite;
+    vn_impresion NUMBER := param_inicial;
+    vn_aux NUMBER := param_inicial;
+    vn_aux2 NUMBER := 1;
+BEGIN
+    WHILE vn_limite >= vn_impresion LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            TO_CHAR(vn_impresion)
+        );
+        IF vn_impresion = 0 THEN
+
+            DBMS_OUTPUT.PUT_LINE(1);
+        END IF;
+
+        vn_impresion := vn_aux + vn_aux2;
+        vn_aux := vn_aux2;
+        vn_aux2 := vn_impresion;
+    END LOOP;
+END SP_Fibonacci;
+```
+
+```sql
+-- Name SP: SP_Fibonacci_IO
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Generates the Fibonacci series up to a limit defined by an input parameter and returns the last value generated by an output parameter.
+
+CREATE OR REPLACE PROCEDURE SP_Fibonacci_IO(
+    param_limite IN NUMBER,
+    param_resultado OUT NUMBER
+)
+IS
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci:'
+    );
+
+    LOOP
+        EXIT WHEN vn_a > param_limite;
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+        param_resultado := vn_a;
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+    END LOOP;
+END SP_Fibonacci_IO;
+```
+
+#### Loop Structures
+
+
+```sql
+-- Anonymous block
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Print the Fibonacci sequence using a LOOP cycle until reaching a maximum value of 100.
+
+DECLARE
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci:'
+    );
+
+    LOOP
+        EXIT WHEN vn_a > 100;
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+    END LOOP;
+END;
+```
+
+```sql
+-- Anonymous block
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Print the Fibonacci series using a FOR loop in normal order.
+
+DECLARE
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci (normal):'
+    );
+    FOR i IN 1..10 LOOP
+
+        DBMS_OUTPUT.PUT_LINE(vn_a);
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+END;
+```
+
+```sql
+-- Anonymous block
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Generate the Fibonacci series and print it in reverse order using FOR REVERSE.
+
+DECLARE
+    TYPE t_fibonacci IS TABLE OF NUMBER
+    INDEX BY PLS_INTEGER;
+
+    v_lista t_fibonacci;
+
+    vn_a NUMBER := 0;
+    vn_b NUMBER := 1;
+    vn_c NUMBER;
+
+BEGIN
+    FOR i IN 1..10 LOOP
+
+        v_lista(i) := vn_a;
+        vn_c := vn_a + vn_b;
+        vn_a := vn_b;
+        vn_b := vn_c;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Serie Fibonacci (reverse):'
+    );
+
+    FOR i IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(v_lista(i));
+    END LOOP;
+END;
+```
+
+#### Implicit Cursors
+
+```sql
+-- Anonymous block
+-- Author: Paula Marín
+-- Date: 23/02/2026
+-- Description: Request the name of a team using a substitution variable and iterate over the result using a FOR loop to print the name of the team found.
+
+DECLARE
+    v_nombre EQUIPO.NOM_EQUIPO%TYPE := '&nombre_equipo';
+BEGIN
+    FOR r IN (
+        SELECT NOM_EQUIPO
+        FROM EQUIPO
+        WHERE NOM_EQUIPO = v_nombre
+    )
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            'Equipment found: ' || r.NOM_EQUIPO
+        );
+
+        EXIT;
+    END LOOP;
+END;
+```
+
+#### Explicit Cursors
+
+```sql
+-- Name: cur_empleado
+-- Author: Paula Marín
+-- Date: 02/03/2026
+-- Description: Loop through all employees using an explicit cursor and print basic information for each employee.
+
+DECLARE
+    CURSOR cur_empleados IS
+        SELECT employee_id,
+               first_name,
+               last_name,
+               salary,
+               department_id
+        FROM employees;
+
+    registro cur_empleados%ROWTYPE;
+BEGIN
+    OPEN cur_empleados;
+
+    LOOP
+        FETCH cur_empleados
+        INTO registro;
+
+        EXIT WHEN cur_empleados%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'ID: ' || registro.employee_id ||
+            ' Name: ' ||
+            registro.first_name || ' ' ||
+            registro.last_name ||
+            ' Salary: ' ||
+            registro.salary ||
+            ' Department: ' ||
+            registro.department_id
+        );
+    END LOOP;
+    CLOSE cur_empleados;
+END;
+```
+
+```sql
+-- Name: cur_empleado
+-- Author: Paula Marín
+-- Date: 02/03/2026
+-- Description: Loop through the employees of a specific department using an explicit cursor with a parameter.
+
+DECLARE
+    CURSOR cur_empleados(
+        vn_departamento IN NUMBER
+    ) IS
+        SELECT employee_id,
+               first_name,
+               last_name,
+               salary,
+               department_id
+        FROM employees
+        WHERE department_id = vn_departamento;
+
+    registro cur_empleados%ROWTYPE;
+
+BEGIN
+    OPEN cur_empleados(80);
+
+    LOOP
+        FETCH cur_empleados
+        INTO registro;
+
+        EXIT WHEN cur_empleados%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'ID: ' || registro.employee_id ||
+            ' Name: ' ||
+            registro.first_name || ' ' ||
+            registro.last_name ||
+            ' Salary: ' ||
+            registro.salary ||
+            ' Department: ' ||
+            registro.department_id
+        );
+    END LOOP;
+    CLOSE cur_empleados;
+END;
+```
+
+#### Stored Functions
+
+```sql
+-- Name function: ES_PALINDROMO
+-- Author: Paula Marín
+-- Date: 06/03/2026
+-- Description: Check if a word is a palindrome by comparing the original text with its reversed version and return a message indicating the result.
+
+CREATE OR REPLACE FUNCTION ES_PALINDROMO(
+    p_palabra VARCHAR2
+)
+RETURN VARCHAR2
+IS
+    palabra_invertida VARCHAR2(100) := '';
+    longitud NUMBER;
+
+BEGIN
+    longitud := LENGTH(p_palabra);
+
+    FOR i IN REVERSE 1..longitud LOOP
+        palabra_invertida :=
+            palabra_invertida ||
+            SUBSTR(
+                p_palabra,
+                i,
+                1
+            );
+    END LOOP;
+
+    IF LOWER(p_palabra) =
+       LOWER(palabra_invertida)
+    THEN
+        RETURN 'Its a palindrome';
+    ELSE
+        RETURN 'Its not a palindrome';
+    END IF;
+
+END ES_PALINDROMO;
+```
+
+#### Packages
+
+```sql
+-- Name Package: PCK_CalcularNomina
+-- Author: Paula Marín
+-- Date: 06/03/2026
+-- Description: Define the procedures and functions related to payroll calculation, including bonuses, hours worked, and salary.
+
+CREATE OR REPLACE PACKAGE PCK_CalcularNomina
+IS
+    PROCEDURE sp_calcularBonificacion(
+        cod_empleado VARCHAR2
+    );
+
+    FUNCTION fn_calcularHorasE(
+        cod_empleado VARCHAR2
+    )
+    RETURN NUMBER;
+
+END PCK_CalcularNomina;
+```
+
+```sql
+-- Name Package Body: PCK_CalcularNomina
+-- Author: Paula Marín
+-- Date: 06/03/2026
+-- Description: Implement the logic of the procedures and functions defined in the PCK_CalcularNomina package.
+
+CREATE OR REPLACE PACKAGE BODY PCK_CalcularNomina
+IS
+    PROCEDURE sp_calcularBonificacion(
+        cod_empleado VARCHAR2
+    )
+    IS
+    BEGIN
+        fn_calcularSalario('125', 80);
+
+    END sp_calcularBonificacion;
+
+    FUNCTION fn_calcularHorasE(
+        cod_empleado VARCHAR2
+    )
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN 0;
+    END fn_calcularHorasE;
+
+    FUNCTION fn_calcularSalario(
+        cod_empleado VARCHAR2,
+        cod_depto NUMBER
+    )
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN 0;
+    END fn_calcularSalario;
+
+END PCK_CalcularNomina;
+```
+
+#### Triggers
+
+```sql
+-- Name Trigger: TR_SALARIO_80
+-- Author: Paula Marín
+-- Date: 09/03/2026
+-- Description: Record in an audit table the salary changes made to employees whose previous department was 80.
+
+CREATE TRIGGER TR_SALARIO_80
+    AFTER UPDATE
+    ON copia_employees
+    FOR EACH ROW
+    WHEN (OLD.department_id = 80)
+
+BEGIN
+    INSERT INTO auditoria_empleados (
+        employee_id,
+        salario_anterior,
+        salario_nuevo,
+        fecha_cambio,
+        usuario_modifico
+    )
+    VALUES (
+        :OLD.employee_id,
+        :OLD.salary,
+        :NEW.salary,
+        SYSDATE,
+        USER
+    );
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE(
+            'Trigger error TR_SALARIO_80: ' ||
+            mpmarins
+        );
+END TR_SALARIO_80;
+```
+
+#### Indexes
+
+```sql
+-- Name index: IX_TIME_EMP_DATE
+-- Date: 09/03/2026
+-- Description: Create a composite index on the EMPLOYEE_ID and WORK_DATE columns of the PAY_TIME_ENTRIES table to optimize queries related to employees and work dates.
+
+CREATE INDEX IX_TIME_EMP_DATE
+ON PAY_TIME_ENTRIES (
+    EMPLOYEE_ID,
+    WORK_DATE
+);
+```
+
+#### Sequences
+
+```sql
+-- Sequence name: SEQ_numeroPlanta
+-- Author: Paula Marín
+-- Date: 29/04/2026
+-- Description: Create a sequence to generate plant numbers, increasing them by 100 each time up to a maximum value of 2000.
+
+CREATE SEQUENCE SEQ_numeroPlanta
+    INCREMENT BY 100
+    START WITH 100
+    MAXVALUE 2000;
+```
+
+```sql
+-- Support script
+-- Author: Paula Marín
+-- Date: 29/04/2026
+-- Description: Create the PLANTS table to store the plant number and its use.
+
+CREATE TABLE plantas (
+    num NUMBER,
+    uso VARCHAR2(50)
+);
+```
+
+```sql
+-- Anonymous block
+-- Author: Paula Marín
+-- Date: 29/04/2026
+-- Description: Insert 500 records into the PLANTS table using the SEQ_plantNumber sequence to automatically generate the plant number.
+
+BEGIN
+    FOR indice IN 1..500 LOOP
+
+        INSERT INTO plantas (
+            num,
+            uso
+        )
+        VALUES (
+            SEQ_numeroPlanta.NEXTVAL,
+            'Suites'
+        );
+
+    END LOOP;
+
+    COMMIT;
+END;
+```
+
+```sql
+-- Example of sequence usage
+-- Author: Paula Marín
+-- Date: 29/04/2026
+-- Description: Insert a record using the next available value in the sequence.
+
+INSERT INTO plantas (
+    num,
+    uso
+)
+VALUES (
+    SEQ_numeroPlanta.NEXTVAL,
+    'Suites'
+);
+```

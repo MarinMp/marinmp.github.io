@@ -552,7 +552,7 @@ BEGIN
 END;
 ```
 
-#### Cursores ímplicitos
+#### Cursores implícitos
 
 ```sql
 -- Bloque anónimo
