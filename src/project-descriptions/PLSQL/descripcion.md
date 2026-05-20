@@ -101,6 +101,8 @@ BEGIN
 END;
 ```
 
+#### Inserción de datos
+
 ```sql
 -- Bloque anónimo
 -- Fecha: 16/02/2026
@@ -467,7 +469,7 @@ BEGIN
 END SP_Fibonacci_IO;
 ```
 
-#### Estructuras repetitivas (Fibonacci)
+#### Estructuras repetitivas
 
 
 ```sql
@@ -785,3 +787,41 @@ IS
 END PCK_CalcularNomina;
 ```
 
+#### Triggers
+
+```sql
+-- Nombre Trigger: TR_SALARIO_80
+-- Autor: Paula Marín
+-- Fecha: 09/03/2026
+-- Descripción: Registra en una tabla de auditoría los cambios de salario realizados a empleados cuyo departamento anterior sea el 80.
+
+CREATE TRIGGER TR_SALARIO_80
+    AFTER UPDATE
+    ON copia_employees
+    FOR EACH ROW
+    WHEN (OLD.department_id = 80)
+
+BEGIN
+    INSERT INTO auditoria_empleados (
+        employee_id,
+        salario_anterior,
+        salario_nuevo,
+        fecha_cambio,
+        usuario_modifico
+    )
+    VALUES (
+        :OLD.employee_id,
+        :OLD.salary,
+        :NEW.salary,
+        SYSDATE,
+        USER
+    );
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE(
+            'Error en el trigger TR_SALARIO_80: ' ||
+            SQLERRM
+        );
+END TR_SALARIO_80;
+```
