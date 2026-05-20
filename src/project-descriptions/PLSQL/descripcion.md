@@ -414,22 +414,19 @@ IS
     vn_impresion NUMBER := param_inicial;
     vn_aux NUMBER := param_inicial;
     vn_aux2 NUMBER := 1;
-
 BEGIN
     WHILE vn_limite >= vn_impresion LOOP
-
         DBMS_OUTPUT.PUT_LINE(
             TO_CHAR(vn_impresion)
         );
-
         IF vn_impresion = 0 THEN
+
             DBMS_OUTPUT.PUT_LINE(1);
         END IF;
 
         vn_impresion := vn_aux + vn_aux2;
         vn_aux := vn_aux2;
         vn_aux2 := vn_impresion;
-
     END LOOP;
 END SP_Fibonacci;
 ```
@@ -448,7 +445,6 @@ IS
     vn_a NUMBER := 0;
     vn_b NUMBER := 1;
     vn_c NUMBER;
-
 BEGIN
     DBMS_OUTPUT.PUT_LINE(
         'Serie Fibonacci:'
@@ -458,13 +454,10 @@ BEGIN
         EXIT WHEN vn_a > param_limite;
 
         DBMS_OUTPUT.PUT_LINE(vn_a);
-
         param_resultado := vn_a;
-
         vn_c := vn_a + vn_b;
         vn_a := vn_b;
         vn_b := vn_c;
-
     END LOOP;
 END SP_Fibonacci_IO;
 ```
@@ -482,7 +475,6 @@ DECLARE
     vn_a NUMBER := 0;
     vn_b NUMBER := 1;
     vn_c NUMBER;
-
 BEGIN
     DBMS_OUTPUT.PUT_LINE(
         'Serie Fibonacci:'
@@ -492,11 +484,9 @@ BEGIN
         EXIT WHEN vn_a > 100;
 
         DBMS_OUTPUT.PUT_LINE(vn_a);
-
         vn_c := vn_a + vn_b;
         vn_a := vn_b;
         vn_b := vn_c;
-
     END LOOP;
 END;
 ```
@@ -511,16 +501,13 @@ DECLARE
     vn_a NUMBER := 0;
     vn_b NUMBER := 1;
     vn_c NUMBER;
-
 BEGIN
     DBMS_OUTPUT.PUT_LINE(
         'Serie Fibonacci (normal):'
     );
-
     FOR i IN 1..10 LOOP
 
         DBMS_OUTPUT.PUT_LINE(vn_a);
-
         vn_c := vn_a + vn_b;
         vn_a := vn_b;
         vn_b := vn_c;
@@ -549,7 +536,6 @@ BEGIN
     FOR i IN 1..10 LOOP
 
         v_lista(i) := vn_a;
-
         vn_c := vn_a + vn_b;
         vn_a := vn_b;
         vn_b := vn_c;
@@ -576,7 +562,6 @@ END;
 
 DECLARE
     v_nombre EQUIPO.NOM_EQUIPO%TYPE := '&nombre_equipo';
-
 BEGIN
     FOR r IN (
         SELECT NOM_EQUIPO
@@ -611,7 +596,6 @@ DECLARE
         FROM employees;
 
     registro cur_empleados%ROWTYPE;
-
 BEGIN
     OPEN cur_empleados;
 
@@ -632,7 +616,6 @@ BEGIN
             registro.department_id
         );
     END LOOP;
-
     CLOSE cur_empleados;
 END;
 ```
@@ -677,7 +660,6 @@ BEGIN
             registro.department_id
         );
     END LOOP;
-
     CLOSE cur_empleados;
 END;
 ```
@@ -732,7 +714,6 @@ END ES_PALINDROMO;
 
 CREATE OR REPLACE PACKAGE PCK_CalcularNomina
 IS
-
     PROCEDURE sp_calcularBonificacion(
         cod_empleado VARCHAR2
     );
@@ -753,15 +734,12 @@ END PCK_CalcularNomina;
 
 CREATE OR REPLACE PACKAGE BODY PCK_CalcularNomina
 IS
-
     PROCEDURE sp_calcularBonificacion(
         cod_empleado VARCHAR2
     )
     IS
     BEGIN
-
-        fn_calcularSalario(
-            '125', 80);
+        fn_calcularSalario('125', 80);
 
     END sp_calcularBonificacion;
 
@@ -824,4 +802,84 @@ EXCEPTION
             SQLERRM
         );
 END TR_SALARIO_80;
+```
+
+#### Índices
+
+```sql
+-- Nombre Índice: IX_TIME_EMP_DATE
+-- Fecha: 09/03/2026
+-- Descripción: Crea un índice compuesto sobre las columnas EMPLOYEE_ID y WORK_DATE de la tabla PAY_TIME_ENTRIES para optimizar consultas relacionadas con empleados y fechas de trabajo.
+
+CREATE INDEX IX_TIME_EMP_DATE
+ON PAY_TIME_ENTRIES (
+    EMPLOYEE_ID,
+    WORK_DATE
+);
+```
+
+#### Secuencias
+
+```sql
+-- Nombre Secuencia: SEQ_numeroPlanta
+-- Autor: Paula Marín
+-- Fecha: 29/04/2026
+-- Descripción: Crea una secuencia para generar números de planta incrementando de 100 en 100 hasta un valor máximo de 2000.
+
+CREATE SEQUENCE SEQ_numeroPlanta
+    INCREMENT BY 100
+    START WITH 100
+    MAXVALUE 2000;
+```
+
+```sql
+-- Script de apoyo
+-- Autor: Paula Marín
+-- Fecha: 29/04/2026
+-- Descripción: Crea la tabla PLANTAS para almacenar el número de planta y su uso.
+
+CREATE TABLE plantas (
+    num NUMBER,
+    uso VARCHAR2(50)
+);
+```
+
+```sql
+-- Bloque anónimo
+-- Autor: Paula Marín
+-- Fecha: 29/04/2026
+-- Descripción: Inserta 500 registros en la tabla PLANTAS utilizando la secuencia SEQ_numeroPlanta para generar automáticamente el número de planta.
+
+BEGIN
+    FOR indice IN 1..500 LOOP
+
+        INSERT INTO plantas (
+            num,
+            uso
+        )
+        VALUES (
+            SEQ_numeroPlanta.NEXTVAL,
+            'Suites'
+        );
+
+    END LOOP;
+
+    COMMIT;
+END;
+```
+
+```sql
+-- Ejemplo de uso de secuencia
+-- Autor: Paula Marín
+-- Fecha: 29/04/2026
+-- Descripción: Inserta un registro utilizando el siguiente valor disponible de la secuencia.
+
+INSERT INTO plantas (
+    num,
+    uso
+)
+VALUES (
+    SEQ_numeroPlanta.NEXTVAL,
+    'Suites'
+);
 ```

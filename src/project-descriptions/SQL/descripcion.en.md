@@ -84,3 +84,45 @@ FROM HR.EMPLOYEES E
        ON L.COUNTRY_ID = C.COUNTRY_ID
 WHERE D.DEPARTMENT_ID IN (80, 90);
 ```
+
+```sql
+-- Author: Paula Marín
+-- Date: 16/02/2026
+-- Description: Creates the PAIS table.
+
+CREATE TABLE PAIS(
+    COD_PAIS NUMBER PRIMARY KEY,
+    NOM_PAIS VARCHAR2(100)
+);
+```
+
+```sql
+-- Author: Paula Marín
+-- Date: 16/02/2026
+-- Description: Creates the EQUIPO table.
+
+CREATE TABLE EQUIPO(
+    COD_EQUIPO NUMBER PRIMARY KEY,
+    NOM_EQUIPO VARCHAR2(100),
+    COD_PAIS NUMBER
+);
+```
+
+```sql
+-- Author: Paula Marín
+-- Date: 16/02/2026
+-- Description: Adds a foreign key to the EQUIPO table linking COD_PAIS with PAIS(COD_PAIS) and enables it.
+
+ALTER TABLE  EQUIPO ADD CONSTRAINT "EQUI_PA_FK" FOREIGN KEY ("COD_PAIS")
+      REFERENCES PAIS ("COD_PAIS") ENABLE;
+```
+
+```sql
+-- Author: Paula Marín
+-- Date: 27/02/2026
+-- Description: Grants SELECT, INSERT, and UPDATE permissions on the DEPARTMENTS table to specific users.
+
+GRANT SELECT, INSERT, UPDATE
+ON DEPARTMENTS
+TO dcrodriguezl, dortizort;
+```
