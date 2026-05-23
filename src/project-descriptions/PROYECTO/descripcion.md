@@ -315,11 +315,9 @@ DELIMITER ;
 -- Descripción: Implementa estructuras NoSQL para el almacenamiento de datos complementarios, auditoría, sesiones, alertas de inventario y reportes del sistema Distilled Records.
 
 -- PASO 1: Seleccionar base de datos
-
 use distilled_records_nosql
 
 -- PASO 2: logs_actividad 
-
 db.logs_actividad.insertOne({
   timestamp: new Date(),
   usuario: {
@@ -342,7 +340,6 @@ db.logs_actividad.insertOne({
 })
 
 -- PASO 3: sesiones_usuario
-
 db.sesiones_usuario.insertOne({
   id_empleado_mysql: "EMP001",
   username: "cajero1",
@@ -356,7 +353,6 @@ db.sesiones_usuario.insertOne({
 })
 
 -- PASO 4: alertas_inventario 
-
 db.alertas_inventario.insertOne({
   id_producto_mysql: 12,
   nombre_producto: "Glenfiddich 12 Years 700ml",
@@ -375,7 +371,6 @@ db.alertas_inventario.insertOne({
 })
 
 -- PASO 5: reportes_cache
-
 db.reportes_cache.insertOne({
   tipo_reporte: "VENTAS_DIARIAS",
   parametros: { fecha_inicio: "2026-05-01", fecha_fin: "2026-05-18" },
@@ -395,7 +390,6 @@ db.reportes_cache.insertOne({
 })
 
 -- PASO 6: Verificar colecciones
-
 show collections
 db.logs_actividad.find()
 db.sesiones_usuario.find()
